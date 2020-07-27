@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Test page for making plots with plotly.js</title>
+        <script src="plotly-latest.min.js"></script>
+    </head>
+    <body style="max-width: 800px;">
+        <h1>Handwritten ECMAScript</h1>
+
+        <div id="tester" style="width:790px; height:350px; border:5px solid green; margin-bottom: 20px;"></div>
+        <script>
+            TESTER = document.getElementById('tester');
+            Plotly.newPlot(TESTER, [{
+                x: [1, 2, 3, 4, 5],
+                y: [1, 2, 4, 8, 16]
+            }], {
+                margin: { t: 30, b: 30, l: 30, r: 30 }
+            });
+        </script>
+
+        <div id="plot1" style="border:5px solid blue; margin-bottom: 20px;"></div>
+        <script>
+            // id of <div> element where this plot will be displayed
+            var plot_id = "plot1"
+
+            // set up some datasets
+            var trace1 = {
+                name: "… this plotting library",
+                x: [1, 2, 3, 4, 5],
+                y: [2, 3, 5, 9, 15],
+                // mode: "lines+markers",
+                // marker: {size: 10, color: 'green'}
+            }
+            var trace2 = {
+                name: "… JavaScript",
+                x: [1, 2, 3, 4, 5],
+                y: [1, 2.9, 0, 5, 3],
+            }
+            var data = [trace1, trace2]
+
+            // define layout
+            var layout = {
+                title: "How much I like …",
+                // margin: { t: 100, b: 80, l: 80, r: 80 },
+                // showlegend: false, // default: true
+            }
+
+            // configure plot
+            var config = {
+                // staticPlot: true, // default: false
+                responsive: true, // adapt when browser window is resized
+                // displayModeBar: true, // default: only on mouse over
+                modeBarButtonsToRemove: ['select2d', 'lasso2d', 'autoScale2d'],
+                displaylogo: false, // don’t display plotly icon in ModeBar
+                toImageButtonOptions: {
+                    format: 'png', // one of png, svg, jpeg, webp
+                    filename: plot_id,
+                    height: 500,
+                    width: 700,
+                    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+                }
+            };
+
+            // Generate the plot.
+            Plotly.newPlot(plot_id, data, layout, config);
+        </script>
+
+        <div id="plot2" style="border:5px solid rgba(128, 0, 128, 1.0); margin-bottom: 20px;"></div>
+        <script>
+            // id of <div> element where this plot will be displayed
+            var plot_id = "plot2"
+
+            // define layout
+            var layout = { title: "Temperature", }
+
+            // configure plot
+            var config = {
+                responsive: true, // adapt when browser window is resized
+                displaylogo: false, // don’t display plotly icon in ModeBar
+            };
+
+            // append "?filename=tempdata-barrel.json" to URL to test this
+            // Note: May not work from file:// URL due to browser restrictions.
+            var filename = (new URL(window.location.href)).searchParams.get("filename")
+            let request = new XMLHttpRequest();
+            request.open('GET', filename)
+            request.responseType = 'json'
+            request.send()
+
+            request.onload = function() {
+                // get data from JSON object and display plot
+                var data = request.response
+                Plotly.newPlot(plot_id, data, layout, config);
+            }
+
+        </script>
+
+
+        <h1>Generated in Python</h1>
+        <div>
+            <!--
+            Generated with the plotly Python library.
+            https://plotly.com/python/interactive-html-export/#controlling-the-size-of-the-html-file
+    
+            >>> import plotly.graph_objects as go
+            >>> fig = go.Figure(data=go.Bar(y=[2, 3, 1, 5, 8, 4, 2, 6])) 
+            >>> fig.write_html('figure-includable.html', full_html=False, include_plotlyjs=False)
+            -->
+            <div id="4d33bc66-5fbf-435b-ac5f-6e13b493ad6e" class="plotly-graph-div" style="height:100%; width:100%;"></div>
+            <script type="text/javascript">
+                window.PLOTLYENV = window.PLOTLYENV || {};
+                if (document.getElementById("4d33bc66-5fbf-435b-ac5f-6e13b493ad6e")) {
+                    Plotly.newPlot(
+                        '4d33bc66-5fbf-435b-ac5f-6e13b493ad6e',
+                        [{ "type": "bar", "y": [2, 3, 1, 5, 8, 4, 2, 6] }],
+                        { "template": { "data": { "bar": [{ "error_x": { "color": "#2a3f5f" }, "error_y": { "color": "#2a3f5f" }, "marker": { "line": { "color": "#E5ECF6", "width": 0.5 } }, "type": "bar" }], "barpolar": [{ "marker": { "line": { "color": "#E5ECF6", "width": 0.5 } }, "type": "barpolar" }], "carpet": [{ "aaxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "baxis": { "endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f" }, "type": "carpet" }], "choropleth": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "choropleth" }], "contour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour" }], "contourcarpet": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "contourcarpet" }], "heatmap": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap" }], "heatmapgl": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl" }], "histogram": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "histogram" }], "histogram2d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d" }], "histogram2dcontour": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour" }], "mesh3d": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "type": "mesh3d" }], "parcoords": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "parcoords" }], "pie": [{ "automargin": true, "type": "pie" }], "scatter": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter" }], "scatter3d": [{ "line": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatter3d" }], "scattercarpet": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattercarpet" }], "scattergeo": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergeo" }], "scattergl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattergl" }], "scattermapbox": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scattermapbox" }], "scatterpolar": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolar" }], "scatterpolargl": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterpolargl" }], "scatterternary": [{ "marker": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "type": "scatterternary" }], "surface": [{ "colorbar": { "outlinewidth": 0, "ticks": "" }, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface" }], "table": [{ "cells": { "fill": { "color": "#EBF0F8" }, "line": { "color": "white" } }, "header": { "fill": { "color": "#C8D4E3" }, "line": { "color": "white" } }, "type": "table" }] }, "layout": { "annotationdefaults": { "arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1 }, "coloraxis": { "colorbar": { "outlinewidth": 0, "ticks": "" } }, "colorscale": { "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]] }, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": { "color": "#2a3f5f" }, "geo": { "bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white" }, "hoverlabel": { "align": "left" }, "hovermode": "closest", "mapbox": { "style": "light" }, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": { "angularaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "radialaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "scene": { "xaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "yaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" }, "zaxis": { "backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white" } }, "shapedefaults": { "line": { "color": "#2a3f5f" } }, "ternary": { "aaxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "baxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" }, "bgcolor": "#E5ECF6", "caxis": { "gridcolor": "white", "linecolor": "white", "ticks": "" } }, "title": { "x": 0.05 }, "xaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 }, "yaxis": { "automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": { "standoff": 15 }, "zerolinecolor": "white", "zerolinewidth": 2 } } } },
+                        { "responsive": true }
+                    )
+                };
+            </script>
+        </div>
+    </body>
+</html>
