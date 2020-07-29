@@ -3,21 +3,80 @@
         <meta charset="utf-8" />
         <title>Test page for making plots with plotly.js</title>
         <script src="plotly-latest.min.js"></script>
+        <style>
+            div {
+                margin-bottom: 20px;
+            }
+            #status-display {
+                display: table;
+                max-width: 208px;
+                border: 5px solid grey;
+            }
+            .statuslight {
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                margin: 0.5px;
+            }
+            .statuslight.green {background-color: green;}
+            .statuslight.yellow {background-color: yellow;}
+            .statuslight.red {background-color: red;}
+            .statuslight.black {background-color: black;}
+        </style>
     </head>
     <body style="max-width: 800px;">
-        <h1>Handwritten ECMAScript</h1>
 
-        <div id="tester" style="width:790px; height:350px; border:5px solid green; margin-bottom: 20px;"></div>
+        <h1>Status Display</h1>
+        <div id="status-display"></div>
         <script>
-            TESTER = document.getElementById('tester');
-            Plotly.newPlot(TESTER, [{
-                x: [1, 2, 3, 4, 5],
-                y: [1, 2, 4, 8, 16]
-            }], {
-                margin: { t: 30, b: 30, l: 30, r: 30 }
+            let devices = [
+                { id: 0, temperature: 20 },
+                { id: 1, temperature: 20 },
+                { id: 2, temperature: 21 },
+                { id: 3, temperature: 20 },
+                { id: 4, temperature: 24 },
+                { id: 5, temperature: null },
+                { id: 6, temperature: 20 },
+                { id: 7, temperature: 25 },
+                { id: 8, temperature: 20 },
+                { id: 9, temperature: 20 },
+                { id: 10, temperature: 20 },
+                { id: 11, temperature: 20 },
+                { id: 12, temperature: 20 },
+                { id: 13, temperature: 20 },
+                { id: 14, temperature: 20 },
+                { id: 15, temperature: 20 },
+                { id: 16, temperature: 20 },
+                { id: 17, temperature: 20 },
+                { id: 18, temperature: 23 },
+                { id: 19, temperature: 20 },
+                { id: 20, temperature: 20 },
+                { id: 21, temperature: 20 },
+                { id: 22, temperature: 20 },
+                { id: 23, temperature: 20 },
+            ]
+            var statusdisplay = document.getElementById("status-display")
+            devices.forEach(device => {
+                let statuslight = document.createElement("a")
+
+                // configure statuslight
+                statuslight.setAttribute("id", "statuslight-" + device["id"])
+                let colour = "green" // default, unless there is an issue
+                if (device["temperature"] > 22) {
+                    colour = "red"
+                } else if (device["temperature"] == null) {
+                    colour = "black"
+                }
+                statuslight.setAttribute("class", "statuslight " + colour)
+                statuslight.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
+                statuslight.setAttribute("href", "details.html?deviceid=" + device["id"])
+
+                // display it
+                statusdisplay.appendChild(statuslight)
             });
         </script>
 
+        <h1>Sample Plots (handwritten in ECMAScript)</h1>
         <div id="plot1" style="border:5px solid blue; margin-bottom: 20px;"></div>
         <script>
             // id of <div> element where this plot will be displayed
@@ -65,6 +124,7 @@
             Plotly.newPlot(plot_id, data, layout, config);
         </script>
 
+        Append "?filename=tempdata-barrel.json" to URL to test this:
         <div id="plot2" style="border:5px solid rgba(128, 0, 128, 1.0); margin-bottom: 20px;"></div>
         <script>
             // id of <div> element where this plot will be displayed
@@ -96,7 +156,7 @@
         </script>
 
 
-        <h1>Generated in Python</h1>
+        <h1>Sample Plot (Generated in Python)</h1>
         <div>
             <!--
             Generated with the plotly Python library.
