@@ -23,8 +23,33 @@
             .statuslight.red {background-color: red;}
             .statuslight.black {background-color: black;}
         </style>
+        <script>
+            var reloadIntervalID;
+
+            function startReload() {
+                reloadIntervalID = setInterval(reloadData, 2000);
+            }
+
+            function reloadData() {
+                var oElem = document.getElementById('plot2');
+                oElem.style.borderColor = oElem.style.borderColor == 'gray' ? '#800080' : 'gray';
+                plotTemperatureData()
+            }
+
+            function toggleReload() {
+                var b = document.getElementById("startstop-button")
+                console.log("Button pressed: " + b.textContent)
+                if (b.textContent == "Stop Refreshing Data Automatically") {
+                    clearInterval(reloadIntervalID);
+                    b.textContent = "Start Refreshing Data Automatically"
+                } else {
+                    startReload()
+                    b.textContent = "Stop Refreshing Data Automatically"
+                }
+            }
+        </script>
     </head>
-    <body style="max-width: 800px;">
+    <body style="max-width: 800px;" onload="startReload();">
 
         <h1>Status Display</h1>
         <div id="status-display"></div>
@@ -85,15 +110,15 @@
             // set up some datasets
             var trace1 = {
                 name: "… this plotting library",
-                x: [1, 2, 3, 4, 5],
-                y: [2, 3, 5, 9, 15],
+                x: [1, 2, 3, 4, 5, 6],
+                y: [2, 3, 5, 9, 15, 23],
                 // mode: "lines+markers",
                 // marker: {size: 10, color: 'green'}
             }
             var trace2 = {
                 name: "… JavaScript",
-                x: [1, 2, 3, 4, 5],
-                y: [1, 2.9, 0, 5, 3],
+                x: [1, 2, 3, 4, 5, 6],
+                y: [1, 2.9, 0, 5, 3, 4.1],
             }
             var data = [trace1, trace2]
 
@@ -126,6 +151,7 @@
 
         Append "?filename=tempdata-barrel.json" to URL to test this:
         <div id="plot2" style="border:5px solid rgba(128, 0, 128, 1.0); margin-bottom: 20px;"></div>
+        <button id="startstop-button" onclick="toggleReload();">Stop Refreshing Data Automatically</button>
         <script>
             // id of <div> element where this plot will be displayed
             var plot_id = "plot2"
@@ -139,20 +165,28 @@
                 displaylogo: false, // don’t display plotly icon in ModeBar
             };
 
-            // append "?filename=tempdata-barrel.json" to URL to test this
-            // Note: May not work from file:// URL due to browser restrictions.
-            var filename = (new URL(window.location.href)).searchParams.get("filename")
-            let request = new XMLHttpRequest();
-            request.open('GET', filename)
-            request.responseType = 'json'
-            request.send()
+            function plotTemperatureData() {
+                // append "?filename=tempdata-barrel.json" to URL to test this
+                // Note: May not work from file:// URL due to browser restrictions.
+                var filename = (new URL(window.location.href)).searchParams.get("filename")
+                // add timestamp to avoid browser caching, see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
+                filename += ((/\?/).test(filename) ? "&" : "?") + (new Date()).getTime()
+                console.log("Reloading data from " + filename)
+                
+                let request = new XMLHttpRequest();
+                request.open('GET', filename)
+                request.responseType = 'json'
+                request.send()
 
-            request.onload = function() {
-                // get data from JSON object and display plot
-                var data = request.response
-                Plotly.newPlot(plot_id, data, layout, config);
+                request.onload = function () {
+                    // get data from JSON object and display plot
+                    var data = request.response
+                    console.log(request.response)
+                    Plotly.newPlot(plot_id, data, layout, config);
+                }
             }
 
+            plotTemperatureData()
         </script>
 
 
