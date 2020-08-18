@@ -4,13 +4,13 @@
         <title>Test page for making plots with plotly.js</title>
         <script src="plotly-latest.min.js"></script>
         <style>
-            div {
+            .plot-div {
+                border: 5px solid #800080;
                 margin-bottom: 20px;
             }
             #status-display {
                 display: table;
                 max-width: 208px;
-                border: 5px solid grey;
             }
             .statuslight {
                 display: inline-block;
@@ -24,170 +24,155 @@
             .statuslight.black {background-color: black;}
         </style>
         <script>
-            var reloadIntervalID;
+            let reloadIntervalID, rateSelector
 
-            function startReload() {
-                reloadIntervalID = setInterval(reloadData, 2000);
+            function setup() {
+                rateSelector = document.getElementById("refresh-rate");
+                rateSelector.addEventListener('change', setReloadInterval);
+
+                reloadData()
+                reloadIntervalID = setInterval(reloadData, 2000)
+            }
+
+            function setReloadInterval() {
+                let reloadInterval = Number(rateSelector.value)
+                if (reloadInterval === 0) {
+                    clearInterval(reloadIntervalID)
+                    document.querySelector("body").style.backgroundColor = "red"
+                } else {
+                    clearInterval(reloadIntervalID)
+                    reloadIntervalID = setInterval(reloadData, reloadInterval)
+                    document.querySelector("body").style.backgroundColor = ""
+                }
             }
 
             function reloadData() {
-                var oElem = document.getElementById('plot2');
-                oElem.style.borderColor = oElem.style.borderColor == 'gray' ? '#800080' : 'gray';
+                updateStatusDisplay()
+                plotSampleData()
                 plotTemperatureData()
-            }
 
-            function toggleReload() {
-                var b = document.getElementById("startstop-button")
-                console.log("Button pressed: " + b.textContent)
-                if (b.textContent == "Stop Refreshing Data Automatically") {
-                    clearInterval(reloadIntervalID);
-                    b.textContent = "Start Refreshing Data Automatically"
-                } else {
-                    startReload()
-                    b.textContent = "Stop Refreshing Data Automatically"
+                // change border color to visualise reload frequency
+                const pd = document.getElementsByClassName("plot-div")
+                for (let item of pd) {
+                    item.style.borderColor = item.style.borderColor == 'gray' ? '#800080' : 'gray'
                 }
             }
-        </script>
-    </head>
-    <body style="max-width: 800px;" onload="startReload();">
 
-        <h1>Status Display</h1>
-        <div id="status-display"></div>
-        <script>
-            let devices = [
-                { id: 0, temperature: 20 },
-                { id: 1, temperature: 20 },
-                { id: 2, temperature: 21 },
-                { id: 3, temperature: 20 },
-                { id: 4, temperature: 24 },
-                { id: 5, temperature: null },
-                { id: 6, temperature: 20 },
-                { id: 7, temperature: 25 },
-                { id: 8, temperature: 20 },
-                { id: 9, temperature: 20 },
-                { id: 10, temperature: 20 },
-                { id: 11, temperature: 20 },
-                { id: 12, temperature: 20 },
-                { id: 13, temperature: 20 },
-                { id: 14, temperature: 20 },
-                { id: 15, temperature: 20 },
-                { id: 16, temperature: 20 },
-                { id: 17, temperature: 20 },
-                { id: 18, temperature: 23 },
-                { id: 19, temperature: 20 },
-                { id: 20, temperature: 20 },
-                { id: 21, temperature: 20 },
-                { id: 22, temperature: 20 },
-                { id: 23, temperature: 20 },
-            ]
-            var statusdisplay = document.getElementById("status-display")
-            devices.forEach(device => {
-                let statuslight = document.createElement("a")
-
-                // configure statuslight
-                statuslight.setAttribute("id", "statuslight-" + device["id"])
-                let colour = "green" // default, unless there is an issue
-                if (device["temperature"] > 22) {
-                    colour = "red"
-                } else if (device["temperature"] == null) {
-                    colour = "black"
-                }
-                statuslight.setAttribute("class", "statuslight " + colour)
-                statuslight.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
-                statuslight.setAttribute("href", "details.html?deviceid=" + device["id"])
-
-                // display it
-                statusdisplay.appendChild(statuslight)
-            });
-        </script>
-
-        <h1>Sample Plots (handwritten in ECMAScript)</h1>
-        <div id="plot1" style="border:5px solid blue; margin-bottom: 20px;"></div>
-        <script>
-            // id of <div> element where this plot will be displayed
-            var plot_id = "plot1"
-
-            // set up some datasets
-            var trace1 = {
-                name: "… this plotting library",
-                x: [1, 2, 3, 4, 5, 6],
-                y: [2, 3, 5, 9, 15, 23],
-                // mode: "lines+markers",
-                // marker: {size: 10, color: 'green'}
-            }
-            var trace2 = {
-                name: "… JavaScript",
-                x: [1, 2, 3, 4, 5, 6],
-                y: [1, 2.9, 0, 5, 3, 4.1],
-            }
-            var data = [trace1, trace2]
-
-            // define layout
-            var layout = {
-                title: "How much I like …",
+            let layout = {
+                title: "",
                 // margin: { t: 100, b: 80, l: 80, r: 80 },
                 // showlegend: false, // default: true
             }
 
-            // configure plot
-            var config = {
+            const config = {
                 // staticPlot: true, // default: false
                 responsive: true, // adapt when browser window is resized
                 // displayModeBar: true, // default: only on mouse over
                 modeBarButtonsToRemove: ['select2d', 'lasso2d', 'autoScale2d'],
                 displaylogo: false, // don’t display plotly icon in ModeBar
-                toImageButtonOptions: {
-                    format: 'png', // one of png, svg, jpeg, webp
-                    filename: plot_id,
-                    height: 500,
-                    width: 700,
-                    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
-                }
+                // toImageButtonOptions: {
+                //     format: 'png', // one of png, svg, jpeg, webp
+                //     filename: plot_id,
+                //     height: 500,
+                //     width: 700,
+                //     scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+                // }
             };
 
-            // Generate the plot.
-            Plotly.newPlot(plot_id, data, layout, config);
-        </script>
+            function plotSampleData() {
+                const plot_id = "plot1"
+                const title = "How much I like …"
+                const filename = "like.json" // hard-coded
 
-        Append "?filename=tempdata-barrel.json" to URL to test this:
-        <div id="plot2" style="border:5px solid rgba(128, 0, 128, 1.0); margin-bottom: 20px;"></div>
-        <button id="startstop-button" onclick="toggleReload();">Stop Refreshing Data Automatically</button>
-        <script>
-            // id of <div> element where this plot will be displayed
-            var plot_id = "plot2"
-
-            // define layout
-            var layout = { title: "Temperature", }
-
-            // configure plot
-            var config = {
-                responsive: true, // adapt when browser window is resized
-                displaylogo: false, // don’t display plotly icon in ModeBar
-            };
+                plotData(plot_id, title, filename)
+            }
 
             function plotTemperatureData() {
-                // append "?filename=tempdata-barrel.json" to URL to test this
-                // Note: May not work from file:// URL due to browser restrictions.
-                var filename = (new URL(window.location.href)).searchParams.get("filename")
+                // id of <div> element where this plot will be displayed
+                const plot_id = "plot2"
+                const title = "Temperature"
+                const filename = (new URL(window.location.href)).searchParams.get("filename")
+
+                plotData(plot_id, title, filename)
+            }
+
+            // function to (re)load data and (re)draw plot
+            function plotData(plot_id, title, filename) {
+                // plot_id: id of <div> element where this plot will be displayed
+                // title: Title of plot
+                // filename: (relative or absolute) path of file containing raw data to plot
+
+                // To-do: better to make a copy of the layout object and modify that? Otherwise it may affect other plots!
+                // To-do: add axis labels, etc.
+                layout["title"] = title
+
                 // add timestamp to avoid browser caching, see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
                 filename += ((/\?/).test(filename) ? "&" : "?") + (new Date()).getTime()
-                console.log("Reloading data from " + filename)
                 
                 let request = new XMLHttpRequest();
                 request.open('GET', filename)
                 request.responseType = 'json'
                 request.send()
-
                 request.onload = function () {
                     // get data from JSON object and display plot
-                    var data = request.response
-                    console.log(request.response)
+                    let data = request.response
+                    console.log("Updating " + plot_id + " with data from " + filename)
                     Plotly.newPlot(plot_id, data, layout, config);
                 }
             }
 
-            plotTemperatureData()
+            function updateStatusDisplay() {
+                const filename = "statusdisplay.json?" + (new Date()).getTime()
+                let request = new XMLHttpRequest();
+                request.open('GET', filename)
+                request.responseType = 'json'
+                request.send()
+                request.onload = function () {
+                    let devices = request.response
+                    let statusdisplay = document.getElementById("status-display")
+                    while (statusdisplay.hasChildNodes()) {
+                        statusdisplay.removeChild(statusdisplay.firstChild)
+                    }
+                    devices.forEach(device => {
+                        let statuslight = document.createElement("a")
+
+                        // configure statuslight
+                        statuslight.setAttribute("id", "statuslight-" + device["id"])
+                        let colour = "green" // default, unless there is an issue
+                        if (device["temperature"] > 22) {
+                            colour = "red"
+                        } else if (device["temperature"] == null) {
+                            colour = "black"
+                        }
+                        statuslight.setAttribute("class", "statuslight " + colour)
+                        statuslight.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
+                        statuslight.setAttribute("href", "details.html?deviceid=" + device["id"])
+
+                        // display it
+                        statusdisplay.appendChild(statuslight)
+                    })
+                }
+            }
         </script>
+    </head>
+    <body style="max-width: 800px;" onload="setup();">
+        <h1>Select a refresh rate</h1>
+        <select id="refresh-rate">
+            <!-- Values in milliseconds. -->
+            <option value="2000" selected>Every 2 Seconds</option>
+            <option value="5000">Every 5 Seconds</option>
+            <option value="60000">Every Minute</option>
+            <option value="0">Stop Refreshing</option>
+        </select>
+
+        <h1>Status Display</h1>
+        <div id="status-display" class="plot-div"></div>
+
+        <h1>Sample Plots (handwritten in ECMAScript)</h1>
+        <div id="plot1" class="plot-div"></div>
+
+        Append "?filename=tempdata-barrel.json" to URL to test this:
+        <div id="plot2" class="plot-div"></div>
 
 
         <h1>Sample Plot (Generated in Python)</h1>
