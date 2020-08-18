@@ -81,34 +81,30 @@
 
             function plotSampleData() {
                 const plot_id = "plot1"
-                const title = "How much I like …"
+                const plot_layout = Object.create(layout)
+                plot_layout.title = "How much I like …"
                 const filename = "like.json" // hard-coded
 
-                plotData(plot_id, title, filename)
+                plotData(plot_id, plot_layout, filename)
             }
 
             function plotTemperatureData() {
-                // id of <div> element where this plot will be displayed
                 const plot_id = "plot2"
-                const title = "Temperature"
+                const plot_layout = Object.create(layout)
+                plot_layout.title = "Temperature"
                 const filename = (new URL(window.location.href)).searchParams.get("filename")
 
-                plotData(plot_id, title, filename)
+                plotData(plot_id, plot_layout, filename)
             }
 
             // function to (re)load data and (re)draw plot
-            function plotData(plot_id, title, filename) {
+            function plotData(plot_id, plot_layout, filename) {
                 // plot_id: id of <div> element where this plot will be displayed
-                // title: Title of plot
+                // plot_layout: Copy of `layout` object with e.g. title adjusted
                 // filename: (relative or absolute) path of file containing raw data to plot
-
-                // To-do: better to make a copy of the layout object and modify that? Otherwise it may affect other plots!
-                // To-do: add axis labels, etc.
-                layout["title"] = title
 
                 // add timestamp to avoid browser caching, see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
                 filename += ((/\?/).test(filename) ? "&" : "?") + (new Date()).getTime()
-                
                 let request = new XMLHttpRequest();
                 request.open('GET', filename)
                 request.responseType = 'json'
@@ -117,7 +113,7 @@
                     // get data from JSON object and display plot
                     let data = request.response
                     console.log("Updating " + plot_id + " with data from " + filename)
-                    Plotly.newPlot(plot_id, data, layout, config);
+                    Plotly.newPlot(plot_id, data, plot_layout, config);
                 }
             }
 
