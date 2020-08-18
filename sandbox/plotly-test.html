@@ -31,7 +31,7 @@
                 rateSelector.addEventListener('change', setReloadInterval);
 
                 reloadData()
-                reloadIntervalID = setInterval(reloadData, 2000)
+                reloadIntervalID = setInterval(reloadData, Number(rateSelector.value))
             }
 
             function setReloadInterval() {
@@ -155,9 +155,9 @@
         <h1>Select a refresh rate</h1>
         <select id="refresh-rate">
             <!-- Values in milliseconds. -->
-            <option value="2000" selected>Every 2 Seconds</option>
+            <option value="2000">Every 2 Seconds</option>
             <option value="5000">Every 5 Seconds</option>
-            <option value="60000">Every Minute</option>
+            <option value="60000" selected>Every Minute</option>
             <option value="0">Stop Refreshing</option>
         </select>
 
