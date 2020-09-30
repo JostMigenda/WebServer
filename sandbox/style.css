@@ -37,12 +37,32 @@ summary > h2 {
 /* Main detector status page */
 #wrapper {
     column-count: 3;
-    column-rule: 1px dashed #666;
+    column-rule: 1px solid rebeccapurple;
     max-height: 600px;
-    border: 1px dashed black;
 }
 
 .item {
-    border: 1px solid green;
     break-inside: avoid;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.25);
+}
+
+.item .title {
+    margin-bottom: 1em;
+}
+
+.item .title h3 {
+    display: inline;
+}
+
+.item .title .details-link {
+    float: right;
+    vertical-align: text-bottom;
+}
+
+.details-link::after {
+    content: " »";
 }
