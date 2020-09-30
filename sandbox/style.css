@@ -1,0 +1,35 @@
+/*
+Useful resources:
+* https://learn.shayhowe.com/advanced-html-css/complex-selectors/
+* https://getbootstrap.com -> wait for beta of v5?
+* https://popper.js.org -> for popovers
+*/
+
+/* Basic elements */
+.plot-div {
+    border: 5px solid #800080;
+    margin-bottom: 20px;
+}
+
+summary > h1 {
+    display: inline-block;
+}
+
+/* Status display (e.g. for DAQ overview page) */
+#status-display {
+    line-height: 0; /* avoid vertical margin between .statuslight boxes */
+    max-width: 200px;
+}
+
+.statuslight {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 25px;
+    height: 25px;
+    border: 0.5px solid #fff;
+}
+.statuslight.green {background-color: green;}
+.statuslight.yellow {background-color: yellow;}
+.statuslight.red {background-color: red;}
+.statuslight.black {background-color: black;}
+
