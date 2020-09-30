@@ -28,7 +28,7 @@ function reloadData() {
     // change border color to visualise reload frequency
     const pd = document.getElementsByClassName("plot-div")
     for (let item of pd) {
-        item.style.borderColor = item.style.borderColor == 'gray' ? '#800080' : 'gray'
+        item.style.borderColor = item.style.borderColor == 'gray' ? 'rebeccapurple' : 'gray'
     }
 }
 
