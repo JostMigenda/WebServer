@@ -33,3 +33,16 @@ summary > h1 {
 .statuslight.red {background-color: red;}
 .statuslight.black {background-color: black;}
 
+
+/* Main detector status page */
+#wrapper {
+    column-count: 3;
+    column-rule: 1px dashed #666;
+    max-height: 600px;
+    border: 1px dashed black;
+}
+
+.item {
+    border: 1px solid green;
+    break-inside: avoid;
+}
