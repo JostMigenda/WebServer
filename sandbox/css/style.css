@@ -74,6 +74,18 @@ header > nav a {
     /* text-align: center; /* TODO: unnecessary? */
 }
 
+#alerts menu { display: none; } /* TODO: hidden by default and should expand when clicked */
+
+
+/* Footer */
+footer>div {flex: 1;}
+/* #current-time { } */
+#current-run { text-align: center; }
+#current-run-number { font-weight: bold; }
+#current-run-number::before { content: "#"; }
+#current-run > p:nth-child(2) { font-size: smaller; }
+
+#settings { text-align: right; }
 
 
 /* Main */

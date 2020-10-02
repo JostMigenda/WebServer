@@ -29,7 +29,33 @@
         </main>
 
         <footer>
-            Footer
+            <div id="current-time">
+                <p><time>2011-11-18 14:54</time> (Japan)</p>
+                <p><time>2011-11-18 06:54</time> (UK)</p>
+            </div>
+            <div id="current-run">
+                <p>Current run: <span id="current-run-number">12345</span></p>
+                <p>(Calibration run, started <span id="current-run-start">29 min</span> ago)</p>
+            </div>
+            <div id="settings">
+                <p>
+                    <label for="refresh-rate">Refresh page:</label>
+                    <select name="refresh-rate" id="refresh-rate">
+                        <!-- Values in milliseconds. -->
+                        <option value="2000">Every 2 Seconds</option>
+                        <option value="5000">Every 5 Seconds</option>
+                        <option value="60000" selected>Every Minute</option>
+                        <option value="0">Stop Refreshing</option>
+                    </select>
+                </p>
+                <p><button onclick="audiotest()">Test audio alert</button></p>
+                <script type="text/javascript">
+                    function audiotest() {
+                        var audio = new Audio("SN-test-sound.mp3");
+                        audio.play();
+                    }
+                </script>
+            </div>
         </footer>
     </body>
 </html>
