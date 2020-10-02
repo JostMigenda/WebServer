@@ -33,6 +33,7 @@ header, main, footer {
 
 header {
     height: 4em;
+    display: flex;
     align-items: center;
 }
 
@@ -42,8 +43,36 @@ main {
 
 footer {
     height: 4em;
+    display: flex;
 }
 
+
+/* Header */
+#page-title { flex: 1 auto; }
+
+header > nav a {
+    padding: 0 4px; /* make clickable area a little wider than the text itself */
+    margin: 0 4px;
+}
+
+#alerts {
+    position: relative;
+    font-size: 1.5em;
+    margin-inline-start: 20px;
+}
+
+#alerts-badge {
+    position: absolute;
+    top: -6px;
+    right: -2px;
+    padding: 0 0.3em;
+    border: 1px solid #fff;
+    border-radius: 0.6em;
+    color: #fff;
+    background: #f00;
+    font: bold 0.5em sans-serif;
+    /* text-align: center; /* TODO: unnecessary? */
+}
 
 
 
