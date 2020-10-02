@@ -19,6 +19,13 @@ ol, ul { padding-left: 2em; }
 ol { list-style-type: decimal; }
 ul { list-style-type: disc; }
 
+:root {
+    /* Can define CSS variables here, e.g. for common colours. */
+    --bgcolor: #4352af;
+}
+
+.debug { border: 2px solid blue; }
+
 
 /* Basic page layout */
 body { height: 100vh; }
@@ -26,15 +33,14 @@ body { height: 100vh; }
 header, main, footer {
     box-sizing: border-box;
     padding: 8px;
-
-    /* For debugging: */
-    border: 2px solid blue;
 }
 
 header {
     height: 4em;
     display: flex;
     align-items: center;
+    color: #fff;
+    background: var(--bgcolor);
 }
 
 main {
@@ -44,6 +50,8 @@ main {
 footer {
     height: 4em;
     display: flex;
+    color: #fff;
+    background: var(--bgcolor);
 }
 
 
@@ -53,6 +61,7 @@ footer {
 header > nav a {
     padding: 0 4px; /* make clickable area a little wider than the text itself */
     margin: 0 4px;
+    color: inherit;
 }
 
 #alerts {
