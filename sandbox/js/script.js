@@ -58,7 +58,7 @@ function plotSampleData() {
     const plot_layout = Object.create(layout)
     plot_layout.title = "How much I like …"
     // TODO: adjust axes, see https://plotly.com/javascript/axes/
-    const filename = "like.json" // hard-coded
+    const filename = "json/like.json" // hard-coded
 
     plotData(plot_id, plot_layout, filename)
 }
@@ -95,7 +95,7 @@ function plotData(plot_id, plot_layout, filename) {
 }
 
 function updateStatusDisplay() {
-    const filename = "statusdisplay.json?" + (new Date()).getTime()
+    const filename = "json/statusdisplay.json?" + (new Date()).getTime()
     let request = new XMLHttpRequest();
     request.open('GET', filename)
     request.responseType = 'json'
