@@ -44,6 +44,11 @@ function loadContent(filename) {
         let main = document.getElementById("main-content")
         main.innerHTML = this.response
 
+        // put title of page into header (yes, this is not ideal … 🤷)
+        titleNode = main.querySelector("h1")
+        main.removeChild(titleNode)
+        document.querySelector("#page-title").textContent = titleNode.textContent
+
         // Setting innerHTML doesn’t execute <script> tags, so we remove and re-add them, as a workaround
         const children = Array.from(main.children) // cast to Array to stop it from updating live
         children.forEach(child => {
