@@ -33,17 +33,13 @@ function audiotest() {
 }
 
 function loadContent(filename) {
-    filename += "?" + (new Date()).getTime()
     console.log("Getting content from " + filename)
-    let request = new XMLHttpRequest();
-    request.open('GET', filename)
-    request.responseType = 'text'
-    request.send()
-    request.onload = function () {
+    makeXHR(filename, 'text', function () {
         let main = document.getElementById("main-content")
-        main.innerHTML = request.response
-    }
+        main.innerHTML = this.response
+    })
 }
+
 
 
 // make necessary functions available globally under the `$hk` prefix
@@ -54,4 +50,18 @@ hk.setReloadInterval = setReloadInterval
 hk.audiotest = audiotest
 hk.loadContent = loadContent
 global.$hk = hk
+
+
+// internal helper functions
+function makeXHR(filename, responseType, completionHandler) {
+    // add timestamp to avoid browser caching, see https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
+    filename += ((/\?/).test(filename) ? "&" : "?") + "timestamp=" + (new Date()).getTime()
+
+    let request = new XMLHttpRequest();
+    request.open('GET', filename)
+    request.responseType = responseType
+    request.send()
+    request.onload = completionHandler
+}
+
 })(window)

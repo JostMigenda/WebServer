@@ -45,6 +45,7 @@ header {
 
 main {
     height: calc(100vh - 8em);
+    overflow: auto;
 }
 
 footer {
