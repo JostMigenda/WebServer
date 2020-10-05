@@ -3,19 +3,20 @@
     <head>
         <meta charset="utf-8" />
         <title>Hyper-Kamiokande Monitoring System</title>
+        <script src="js/main.js"></script>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
-    <body>
+    <body onload="$hk.setup()">
         <header>
             <h1 id="page-title">Page Title</h1>
 
             <nav>
-                <a href="#">Home</a>
-                <a href="#DAQ">DAQ</a>
-                <a href="#PMT">PMTs</a>
-                <a href="#Calibration">Calibration</a>
-                <a href="#etc">…</a>
+                <a href="#" onclick="$hk.loadContent('home.html')">Home</a>
+                <a href="#" onclick="$hk.loadContent('daq.html')">DAQ</a>
+                <a href="#" onclick="$hk.loadContent('pmt.html')">PMTs</a>
+                <a href="#" onclick="$hk.loadContent('calibration.html')">Calibration</a>
+                <a href="#" onclick="$hk.loadContent('foo.html')">…</a>
             </nav>
             
             <div id="alerts">🔔
@@ -23,7 +24,7 @@
             </div>
         </header>
 
-        <main>
+        <main id="main-content">
             <h1>Main</h1>
             <p>[insert content here]</p>
         </main>
@@ -48,13 +49,7 @@
                         <option value="0">Stop Refreshing</option>
                     </select>
                 </p>
-                <p><button onclick="audiotest()">Test audio alert</button></p>
-                <script type="text/javascript">
-                    function audiotest() {
-                        var audio = new Audio("SN-test-sound.mp3");
-                        audio.play();
-                    }
-                </script>
+                <p><button onclick="$hk.audiotest()">Test audio alert</button></p>
             </div>
         </footer>
     </body>
