@@ -1,0 +1,33 @@
+<script>
+$hk.itemsToReload.push({
+    filename: "json/statusdisplay.json",
+    responseType: 'json',
+    completionHandler: function() {
+        let devices = this.response
+        let statusdisplay = document.getElementById("status-display")
+        while (statusdisplay.hasChildNodes()) {
+            statusdisplay.removeChild(statusdisplay.firstChild)
+        }
+        devices.forEach(device => {
+            let statuslight = document.createElement("a")
+
+            // configure statuslight
+            statuslight.setAttribute("id", "statuslight-" + device["id"])
+            let colour = "green" // default, unless there is an issue
+            if (device["temperature"] > 22) {
+                colour = "red"
+            } else if (device["temperature"] == null) {
+                colour = "black"
+            }
+            statuslight.setAttribute("class", "statuslight " + colour)
+            statuslight.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
+            statuslight.setAttribute("onclick", "showDetailsPopup(" + device["id"] + ")")
+
+            // display it
+            statusdisplay.appendChild(statuslight)
+        })
+    }
+})
+</script>
+<div id="status-display" class="plot-div"></div>
+lkj

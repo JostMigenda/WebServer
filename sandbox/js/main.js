@@ -1,6 +1,7 @@
 (function() {
 // global variables
 window.$hk = {}
+$hk.itemsToReload = []
 
 // local variables
 let reloadIntervalID, rateSelector
@@ -8,10 +9,10 @@ let reloadIntervalID, rateSelector
 function setup() {
     rateSelector = document.getElementById("refresh-rate");
     console.log("rateSelector:" + rateSelector)
-    rateSelector.addEventListener('change', hk.setReloadInterval);
+    rateSelector.addEventListener('change', setReloadInterval);
 
-    reloadData()
-    reloadIntervalID = setInterval(reloadData, Number(rateSelector.value))
+    reloadAll()
+    reloadIntervalID = setInterval(reloadAll, Number(rateSelector.value))
 }
 
 function setReloadInterval() {
@@ -21,14 +22,14 @@ function setReloadInterval() {
         document.querySelector("body").style.backgroundColor = "rgba(255,0,0,0.5)"
     } else {
         clearInterval(reloadIntervalID)
-        reloadIntervalID = setInterval(reloadData, reloadInterval)
+        reloadIntervalID = setInterval(reloadAll, reloadInterval)
         document.querySelector("body").style.backgroundColor = ""
     }
 }
 
-function reloadData() {
+function reloadAll() {
     console.log("Reloading data … " + new Date())
-    // TODO:
+    $hk.itemsToReload.forEach(item => makeXHR(item.filename, item.responseType, item.completionHandler))
 }
 
 function audiotest() {
@@ -38,9 +39,24 @@ function audiotest() {
 
 function loadContent(filename) {
     console.log("Getting content from " + filename)
+    $hk.itemsToReload = []
     makeXHR(filename, 'text', function () {
         let main = document.getElementById("main-content")
         main.innerHTML = this.response
+
+        // Setting innerHTML doesn’t execute <script> tags, so we remove and re-add them, as a workaround
+        const children = Array.from(main.children) // cast to Array to stop it from updating live
+        children.forEach(child => {
+            if (child.tagName.toLowerCase() === 'script') {
+                main.removeChild(child)
+                let scriptTag = document.createElement('script')
+                scriptTag.innerHTML = ' ' + child.innerHTML
+                main.appendChild(scriptTag)
+            }
+        })
+
+        // If the <script> tags added any elements to $hk.itemsToReload, load them now
+        reloadAll()
     })
 }
 
