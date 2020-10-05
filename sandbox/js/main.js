@@ -1,4 +1,8 @@
-(function(global) {
+(function() {
+// global variables
+window.$hk = {}
+
+// local variables
 let reloadIntervalID, rateSelector
 
 function setup() {
@@ -41,15 +45,12 @@ function loadContent(filename) {
 }
 
 
-
 // make necessary functions available globally under the `$hk` prefix
-hk = {}
-hk.setup = setup
-hk.setReloadInterval = setReloadInterval
-// hk.reloadData = reloadData
-hk.audiotest = audiotest
-hk.loadContent = loadContent
-global.$hk = hk
+$hk.setup = setup
+$hk.setReloadInterval = setReloadInterval
+// $hk.reloadAll = reloadAll // TODO: Does this need to be public?
+$hk.audiotest = audiotest
+$hk.loadContent = loadContent
 
 
 // internal helper functions
@@ -63,5 +64,4 @@ function makeXHR(filename, responseType, completionHandler) {
     request.send()
     request.onload = completionHandler
 }
-
-})(window)
+})()
