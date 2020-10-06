@@ -5,7 +5,7 @@ Useful resources:
 * https://popper.js.org -> for popovers
 */
 
-/* Define basic styles that were cleared by the reset.css.
+/* Re-define basic styles that were cleared by the reset.css.
 This ensures that formatting is consistent across browsers. */
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
@@ -19,6 +19,8 @@ ol, ul { padding-left: 2em; }
 ol { list-style-type: decimal; }
 ul { list-style-type: disc; }
 
+
+/* Basic styles */
 :root {
     /* Can define CSS variables here, e.g. for common colours. */
     --bgcolor: #4352af;
@@ -26,6 +28,11 @@ ul { list-style-type: disc; }
 
 .debug { border: 2px solid blue; }
 .hidden {display: none;}
+
+.green {background-color: green;}
+.yellow {background-color: yellow;}
+.red {background-color: red;}
+.black {background-color: black;}
 
 
 /* Basic page layout */
@@ -82,7 +89,6 @@ header > nav a {
     color: #fff;
     background: #f00;
     font: bold 0.5em sans-serif;
-    /* text-align: center; /* TODO: unnecessary? */
 }
 
 #alerts menu { display: none; } /* TODO: hidden by default and should expand when clicked */
@@ -112,23 +118,19 @@ summary > h2 {
 }
 
 /* Status display (e.g. for DAQ overview page) */
-#status-display {
-    line-height: 0; /* avoid vertical margin between .statuslight boxes */
+.statusboard {
+    line-height: 0; /* avoid vertical margin between .statusindicator boxes */
     max-width: 200px;
 }
-#status-display * { line-height: initial; } /* Don’t inherit this to children! */
+.statusboard * { line-height: initial; } /* Don’t inherit this to children! */
 
-.statuslight {
+.statusindicator {
     display: inline-block;
     box-sizing: border-box;
     width: 25px;
     height: 25px;
     border: 0.5px solid #fff;
 }
-.statuslight.green {background-color: green;}
-.statuslight.yellow {background-color: yellow;}
-.statuslight.red {background-color: red;}
-.statuslight.black {background-color: black;}
 
 .popover {
     width: 12em;

@@ -102,27 +102,27 @@ function updateStatusDisplay() {
     request.send()
     request.onload = function () {
         let devices = request.response
-        let statusdisplay = document.getElementById("status-display")
+        let statusdisplay = document.getElementById("status-display-1")
         while (statusdisplay.hasChildNodes()) {
             statusdisplay.removeChild(statusdisplay.firstChild)
         }
         devices.forEach(device => {
-            let statuslight = document.createElement("a")
+            let statusindicator = document.createElement("a")
 
-            // configure statuslight
-            statuslight.setAttribute("id", "statuslight-" + device["id"])
+            // configure statusindicator
+            statusindicator.setAttribute("id", "statusindicator-" + device["id"])
             let colour = "green" // default, unless there is an issue
             if (device["temperature"] > 22) {
                 colour = "red"
             } else if (device["temperature"] == null) {
                 colour = "black"
             }
-            statuslight.setAttribute("class", "statuslight " + colour)
-            statuslight.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
-            statuslight.setAttribute("href", "details.html?deviceid=" + device["id"])
+            statusindicator.setAttribute("class", "statusindicator " + colour)
+            statusindicator.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
+            statusindicator.setAttribute("href", "details.html?deviceid=" + device["id"])
 
             // display it
-            statusdisplay.appendChild(statuslight)
+            statusdisplay.appendChild(statusindicator)
         })
     }
 }
