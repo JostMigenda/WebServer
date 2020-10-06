@@ -25,6 +25,7 @@ ul { list-style-type: disc; }
 }
 
 .debug { border: 2px solid blue; }
+.hidden {display: none;}
 
 
 /* Basic page layout */
@@ -115,6 +116,7 @@ summary > h2 {
     line-height: 0; /* avoid vertical margin between .statuslight boxes */
     max-width: 200px;
 }
+#status-display * { line-height: initial; } /* Don’t inherit this to children! */
 
 .statuslight {
     display: inline-block;
@@ -127,6 +129,32 @@ summary > h2 {
 .statuslight.yellow {background-color: yellow;}
 .statuslight.red {background-color: red;}
 .statuslight.black {background-color: black;}
+
+.popover {
+    width: 12em;
+    background: #ddd;
+    padding: 10px;
+    border: 1px solid #bbb;
+    z-index: 1;
+}
+
+.popover .po-arrow, .popover .po-arrow::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    z-index: -1;
+}
+
+.popover .po-arrow::before {
+    content: '';
+    transform: rotate(45deg);
+    background: #ddd;
+}
+
+.popover[data-popper-placement^='top'] > .po-arrow {bottom: -4px;}
+.popover[data-popper-placement^='bottom'] > .po-arrow {top: -4px;}
+.popover[data-popper-placement^='left'] > .po-arrow {right: -4px; }
+.popover[data-popper-placement^='right'] > .po-arrow { left: -4px; }
 
 
 /* Main detector status page */

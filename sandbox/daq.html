@@ -10,24 +10,54 @@ $hk.itemsToReload.push({
             statusdisplay.removeChild(statusdisplay.firstChild)
         }
         devices.forEach(device => {
-            let statuslight = document.createElement("a")
-
-            // configure statuslight
-            statuslight.setAttribute("id", "statuslight-" + device["id"])
+            // create statuslight
+            let sl = document.createElement("a")
+            sl.setAttribute("id", "statuslight-" + device["id"])
             let colour = "green" // default, unless there is an issue
-            if (device["temperature"] > 22) {
+            if (device.temperature > 22) {
                 colour = "red"
-            } else if (device["temperature"] == null) {
+            } else if (device.temperature == null) {
                 colour = "black"
             }
-            statuslight.setAttribute("class", "statuslight " + colour)
-            statuslight.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
-            statuslight.setAttribute("onclick", "showDetailsPopup(" + device["id"] + ")")
+            sl.setAttribute("class", "statuslight " + colour)
+            sl.setAttribute("title", "ID: " + device["id"] + "; Temperature: " + device["temperature"])
+            sl.setAttribute("onmouseenter", "showDetailsPopover(" + device["id"] + ")")
+            sl.setAttribute("onmouseleave", "hideDetailsPopover(" + device["id"] + ")")
+
+            // prepare popover
+            let po = document.createElement("div")
+            po.setAttribute("class", "popover hidden")
+            po.innerHTML = '<h4>ID: ' + device.id + '</h4><p>Temperature: ' + device.temperature + '</p>'
+            po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
 
             // display it
-            statusdisplay.appendChild(statuslight)
+            sl.appendChild(po)
+            statusdisplay.appendChild(sl);
         })
     }
 })
+
+var popperInstance = null
+
+function showDetailsPopover(id) {
+    const sl = document.querySelector('#statuslight-' + id)
+    const popover = sl.querySelector('.popover')
+    popover.classList.remove('hidden')
+    console.log(sl, popover)
+
+    // Pass the button, the tooltip, and some options, and Popper will do the
+    // magic positioning for you:
+    popperInstance = Popper.createPopper(sl, popover, {
+        placement: 'bottom',
+    })
+}
+
+function hideDetailsPopover(id) {
+    const sl = document.querySelector('#statuslight-' + id)
+    const popover = sl.querySelector('.popover')
+    popover.classList.add('hidden')
+    popperInstance.destroy()
+    popperInstance = null
+}
 </script>
 <div id="status-display" class="plot-div"></div>
