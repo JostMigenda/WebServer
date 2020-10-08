@@ -12,7 +12,7 @@ function setup() {
     rateSelector.addEventListener('change', setReloadInterval);
 
     reloadAll()
-    reloadIntervalID = setInterval(reloadAll, Number(rateSelector.value))
+    setReloadInterval()
 }
 
 function setReloadInterval() {
