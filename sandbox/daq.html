@@ -10,10 +10,9 @@ $hk.itemsToReload.push({
         devices.forEach(device => {
             // create statusindicator
             let si = document.createElement("a")
-            si.setAttribute("id", "statusindicator-" + device.id)
             si.setAttribute("class", "statusindicator")
-            si.setAttribute("onmouseenter", "showDetailsPopover(" + device.id + ")")
-            si.setAttribute("onmouseleave", "hideDetailsPopover(" + device.id + ")")
+            si.addEventListener('mouseenter', showDetailsPopover)
+            si.addEventListener('mouseleave', hideDetailsPopover)
             // customize based on current status
             let colour = "green"
             if (device.temperature > 22) {
@@ -26,7 +25,43 @@ $hk.itemsToReload.push({
             // prepare popover
             let po = document.createElement("div")
             po.setAttribute("class", "popover hidden")
-            po.innerHTML = '<h4>ID: ' + device.id + '</h4><p>Temperature: ' + device.temperature + '</p>'
+            po.innerHTML = '<h4>FEE module #' + device.id + '</h4><p>Temperature: ' + device.temperature + '</p>'
+            po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
+
+            // display it
+            si.appendChild(po)
+            statusdisplay.appendChild(si);
+        })
+    }
+})
+
+$hk.itemsToReload.push({
+    filename: "json/statusdisplay2.json", // custom
+    responseType: 'json',
+    completionHandler: function () {
+        let devices = this.response
+        let statusdisplay = document.getElementById("status-display-2") // custom
+        statusdisplay.textContent = ''
+        devices.forEach(device => {
+            // create statusindicator
+            let si = document.createElement("a")
+            si.setAttribute("class", "statusindicator")
+            si.addEventListener('mouseenter', showDetailsPopover)
+            si.addEventListener('mouseleave', hideDetailsPopover)
+
+            // customize based on current status // TODO: extract into separate function
+            let colour = "green"
+            if (device.cpu > 80) {
+                colour = "red"
+            } else if (device.cpu == null) {
+                colour = "black"
+            }
+            si.classList.add(colour) // TODO: extract until here
+
+            // prepare popover
+            let po = document.createElement("div")
+            po.setAttribute("class", "popover hidden")
+            po.innerHTML = '<h4>RBU #' + device.id + '</h4><p>CPU usage: ' + device.cpu + '%</p>' // TODO: iterate over entries in `device`
             po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
 
             // display it
@@ -38,8 +73,8 @@ $hk.itemsToReload.push({
 
 var popperInstance = null
 
-function showDetailsPopover(id) {
-    const si = document.querySelector('#statusindicator-' + id)
+function showDetailsPopover(event) {
+    const si = event.currentTarget
     const popover = si.querySelector('.popover')
     popover.classList.remove('hidden')
     popperInstance = Popper.createPopper(si, popover, {
@@ -47,8 +82,8 @@ function showDetailsPopover(id) {
     })
 }
 
-function hideDetailsPopover(id) {
-    const si = document.querySelector('#statusindicator-' + id)
+function hideDetailsPopover(event) {
+    const si = event.currentTarget
     const popover = si.querySelector('.popover')
     popover.classList.add('hidden')
     popperInstance.destroy()
@@ -56,3 +91,4 @@ function hideDetailsPopover(id) {
 }
 </script>
 <div id="status-display-1" class="statusboard plot-div"></div>
+<div id="status-display-2" class="statusboard plot-div"></div>
