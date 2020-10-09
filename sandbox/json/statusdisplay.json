@@ -26,6 +26,7 @@
         { "id": 23, "temperature": 20, "cpu": 70 }
     ],
     "meta": {
+        "deviceType": "FEE module",
         "lastUpdated": "2020-10-09 13:00:00",
         "acceptableRanges": {
             "temperature": [19, 23],

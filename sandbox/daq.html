@@ -16,19 +16,14 @@ function updateStatusboard(id, data) {
     let statusdisplay = document.getElementById(id)
     statusdisplay.textContent = ''
     data.devices.forEach(device => {
-        // create statusindicator
+        // create statusindicator and set colour based on current status
         let si = document.createElement("a")
         si.setAttribute("class", "statusindicator")
         si.addEventListener('mouseenter', showDetailsPopover)
         si.addEventListener('mouseleave', hideDetailsPopover)
-        // customize based on current status
         si.classList.add(determineStatusIndicatorColour(device, data.meta.acceptableRanges))
 
-        // prepare popover
-        let po = document.createElement("div")
-        po.setAttribute("class", "popover hidden")
-        po.innerHTML = '<h4>RBU #' + device.id + '</h4><p>CPU usage: ' + device.cpu + '%</p>' // TODO: iterate over entries in `device`
-        po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
+        let po = createPopover(device, data.meta)
 
         // display it
         si.appendChild(po)
@@ -47,6 +42,28 @@ function determineStatusIndicatorColour(device, ranges) {
         }
     }
     return colour
+}
+
+function createPopover(device, meta) {
+    let po = document.createElement("div")
+    po.setAttribute("class", "popover hidden")
+    po.innerHTML = '<h4>' + meta.deviceType + ' #' + device.id + '</h4>'
+
+    // add data
+    for (const [quantity, value] of Object.entries(device)) {
+        if (quantity === "id") { continue } // id is already listed in the header
+
+        let p = document.createElement("p")
+        p.textContent = quantity + ": "
+        let span = document.createElement("span")
+        span.textContent = value || "[null]"
+        span.classList.add(determineStatusIndicatorColour(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
+        p.appendChild(span)
+        po.appendChild(p)
+    }
+
+    po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>' // arrow pointing towards statusindicator
+    return po
 }
 
 var popperInstance = null

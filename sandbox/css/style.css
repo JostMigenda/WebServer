@@ -140,6 +140,9 @@ summary > h2 {
     z-index: 1;
 }
 
+.popover span {color: white;}
+.popover span.red::after, .popover span.black::after {content: '⚠️';}
+
 .popover .po-arrow, .popover .po-arrow::before {
     position: absolute;
     width: 8px;

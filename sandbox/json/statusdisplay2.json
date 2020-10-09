@@ -22,6 +22,7 @@
         { "id": 19, "temperature": 20, "cpu": 70 }
     ],
     "meta": {
+        "deviceType": "RBU",
         "lastUpdated": "2020-10-09 13:30:00",
         "acceptableRanges": {
             "temperature": [19, 23],
