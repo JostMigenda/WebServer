@@ -117,6 +117,10 @@ summary > h2 {
     display: inline-block;
 }
 
+.details-link { float: right; }
+.details-link::after { content: " »"; }
+
+
 /* Status display (e.g. for DAQ overview page) */
 .statusboard {
     line-height: 0; /* avoid vertical margin between .statusindicator boxes */
@@ -133,7 +137,7 @@ summary > h2 {
 }
 
 .popover {
-    width: 12em;
+    width: 14em;
     background: #ddd;
     padding: 10px;
     border: 1px solid #bbb;
@@ -184,13 +188,4 @@ summary > h2 {
 
 .item .title h3 {
     display: inline;
-}
-
-.item .title .details-link {
-    float: right;
-    vertical-align: text-bottom;
-}
-
-.details-link::after {
-    content: " »";
 }
