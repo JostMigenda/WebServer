@@ -47,7 +47,7 @@ function determineStatusIndicatorColour(device, ranges) {
 function createPopover(device, meta) {
     let po = document.createElement("div")
     po.setAttribute("class", "popover hidden")
-    po.innerHTML = '<div class="title"><a href="#" class="details-link">View details</a><h4>' + meta.deviceType + ' #' + device.id + '</h4></div>'
+    po.innerHTML = '<div class="title"><a href="#" onclick="$hk.loadContent(\'details.html?type=' + meta.deviceType + '&id=' + device.id + '\')" class="details-link">View details</a><h4>' + meta.deviceType + ' #' + device.id + '</h4></div>'
 
     // add data
     for (const [quantity, value] of Object.entries(device)) {

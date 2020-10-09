@@ -1,0 +1,63 @@
+<h1>Device Details</h1>
+
+<script>
+const deviceType = "RBU" // (new URL(window.location.href)).searchParams.get("type")
+const deviceID = 7 // (new URL(window.location.href)).searchParams.get("id")
+
+var pageTitle = document.getElementById("page-title")
+pageTitle.textContent = deviceType + ' #' + deviceID + ' Details'
+
+
+$hk.itemsToReload.push({
+    filename: "json/" + deviceType + "-" + deviceID + "-cpu.json",
+    responseType: 'json',
+    completionHandler: function () { updatePlot("history-cpu", this.response) }
+})
+
+$hk.itemsToReload.push({
+    filename: "json/" + deviceType + "-" + deviceID + "-temperature.json",
+    responseType: 'json',
+    completionHandler: function () { updatePlot("history-cpu", this.response) }
+})
+
+
+// default values for layout and config
+const layout = {
+    title: "",
+    // margin: { t: 100, b: 80, l: 80, r: 80 },
+    // showlegend: false, // default: true
+}
+
+const config = {
+    // staticPlot: true, // default: false
+    responsive: true, // adapt when browser window is resized
+    // displayModeBar: true, // default: only on mouse over
+    modeBarButtonsToRemove: ['select2d', 'lasso2d', 'autoScale2d'],
+    displaylogo: false, // don’t display plotly icon in ModeBar
+    // toImageButtonOptions: {
+    //     format: 'png', // one of png, svg, jpeg, webp
+    //     filename: plot_id,
+    //     height: 500,
+    //     width: 700,
+    //     scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+    // }
+}
+
+function updatePlot(id, data) {
+    const plot_layout = Object.create(layout)
+    plot_layout.title = "CPU Usage" // data.timeSeries.name
+    plot_layout.xaxis = { title: "Time" }
+    plot_layout.yaxis = { title: "CPU Usage [%]", range: [data.meta.additionalInfo.min, data.meta.additionalInfo.max] }
+
+    Plotly.newPlot(id, [data.timeSeries], plot_layout, config);
+}
+</script>
+
+<div id="current-status" class="">
+    <h2>Current status (Last updated: <time datetime="2011-11-18T14:54:39.929+08:00">2011-11-18 14:54:39+08:00</time>)</h2>
+    <!-- TODO: fill in all properties (and their current value) of the device with JS.
+        Use `determineStatusIndicatorColour(device, ranges)` for formatting. -->
+</div>
+
+<div class="plot-div" id="history-cpu"></div>
+<div class="plot-div" id="history-temperature"></div>
