@@ -1,5 +1,5 @@
 {
-    "data": [
+    "devices": [
         { "id": 0, "temperature": 20, "cpu": 70 },
         { "id": 1, "temperature": 20, "cpu": 92 },
         { "id": 2, "temperature": 21, "cpu": 70 },

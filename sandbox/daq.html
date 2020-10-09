@@ -3,61 +3,38 @@
 $hk.itemsToReload.push({
     filename: "json/statusdisplay.json",
     responseType: 'json',
-    completionHandler: function() {
-        let devices = this.response
-        let statusdisplay = document.getElementById("status-display-1")
-        statusdisplay.textContent = ''
-        devices.data.forEach(device => {
-            // create statusindicator
-            let si = document.createElement("a")
-            si.setAttribute("class", "statusindicator")
-            si.addEventListener('mouseenter', showDetailsPopover)
-            si.addEventListener('mouseleave', hideDetailsPopover)
-            // customize based on current status
-            si.classList.add(determineStatusIndicatorColour(device, devices.meta.acceptableRanges))
-
-            // prepare popover
-            let po = document.createElement("div")
-            po.setAttribute("class", "popover hidden")
-            po.innerHTML = '<h4>FEE module #' + device.id + '</h4><p>Temperature: ' + device.temperature + '</p>'
-            po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
-
-            // display it
-            si.appendChild(po)
-            statusdisplay.appendChild(si);
-        })
-    }
+    completionHandler: function () { updateStatusboard("status-display-1", this.response) }
 })
 
 $hk.itemsToReload.push({
     filename: "json/statusdisplay2.json", // custom
     responseType: 'json',
-    completionHandler: function () {
-        let devices = this.response
-        let statusdisplay = document.getElementById("status-display-2") // custom
-        statusdisplay.textContent = ''
-        devices.data.forEach(device => {
-            // create statusindicator
-            let si = document.createElement("a")
-            si.setAttribute("class", "statusindicator")
-            si.addEventListener('mouseenter', showDetailsPopover)
-            si.addEventListener('mouseleave', hideDetailsPopover)
-            // customize based on current status
-            si.classList.add(determineStatusIndicatorColour(device, devices.meta.acceptableRanges))
-
-            // prepare popover
-            let po = document.createElement("div")
-            po.setAttribute("class", "popover hidden")
-            po.innerHTML = '<h4>RBU #' + device.id + '</h4><p>CPU usage: ' + device.cpu + '%</p>' // TODO: iterate over entries in `device`
-            po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
-
-            // display it
-            si.appendChild(po)
-            statusdisplay.appendChild(si);
-        })
-    }
+    completionHandler: function () { updateStatusboard("status-display-2", this.response) }
 })
 
+function updateStatusboard(id, data) {
+    let statusdisplay = document.getElementById(id)
+    statusdisplay.textContent = ''
+    data.devices.forEach(device => {
+        // create statusindicator
+        let si = document.createElement("a")
+        si.setAttribute("class", "statusindicator")
+        si.addEventListener('mouseenter', showDetailsPopover)
+        si.addEventListener('mouseleave', hideDetailsPopover)
+        // customize based on current status
+        si.classList.add(determineStatusIndicatorColour(device, data.meta.acceptableRanges))
+
+        // prepare popover
+        let po = document.createElement("div")
+        po.setAttribute("class", "popover hidden")
+        po.innerHTML = '<h4>RBU #' + device.id + '</h4><p>CPU usage: ' + device.cpu + '%</p>' // TODO: iterate over entries in `device`
+        po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>'
+
+        // display it
+        si.appendChild(po)
+        statusdisplay.appendChild(si);
+    })
+}
 
 function determineStatusIndicatorColour(device, ranges) {
     let colour = "green" // default, if there are no issues
