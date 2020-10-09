@@ -7,20 +7,14 @@ $hk.itemsToReload.push({
         let devices = this.response
         let statusdisplay = document.getElementById("status-display-1")
         statusdisplay.textContent = ''
-        devices.forEach(device => {
+        devices.data.forEach(device => {
             // create statusindicator
             let si = document.createElement("a")
             si.setAttribute("class", "statusindicator")
             si.addEventListener('mouseenter', showDetailsPopover)
             si.addEventListener('mouseleave', hideDetailsPopover)
             // customize based on current status
-            let colour = "green"
-            if (device.temperature > 22) {
-                colour = "red"
-            } else if (device.temperature == null) {
-                colour = "black"
-            }
-            si.classList.add(colour)
+            si.classList.add(determineStatusIndicatorColour(device, devices.meta.acceptableRanges))
 
             // prepare popover
             let po = document.createElement("div")
@@ -42,21 +36,14 @@ $hk.itemsToReload.push({
         let devices = this.response
         let statusdisplay = document.getElementById("status-display-2") // custom
         statusdisplay.textContent = ''
-        devices.forEach(device => {
+        devices.data.forEach(device => {
             // create statusindicator
             let si = document.createElement("a")
             si.setAttribute("class", "statusindicator")
             si.addEventListener('mouseenter', showDetailsPopover)
             si.addEventListener('mouseleave', hideDetailsPopover)
-
-            // customize based on current status // TODO: extract into separate function
-            let colour = "green"
-            if (device.cpu > 80) {
-                colour = "red"
-            } else if (device.cpu == null) {
-                colour = "black"
-            }
-            si.classList.add(colour) // TODO: extract until here
+            // customize based on current status
+            si.classList.add(determineStatusIndicatorColour(device, devices.meta.acceptableRanges))
 
             // prepare popover
             let po = document.createElement("div")
@@ -70,6 +57,20 @@ $hk.itemsToReload.push({
         })
     }
 })
+
+
+function determineStatusIndicatorColour(device, ranges) {
+    let colour = "green" // default, if there are no issues
+    for (const [quantity, [min, max]] of Object.entries(ranges)) {
+        if (device[quantity] == null) {
+            colour = "black"
+            break
+        } else if (device[quantity] <= min || device[quantity] >= max) {
+            colour = "red"
+        }
+    }
+    return colour
+}
 
 var popperInstance = null
 
