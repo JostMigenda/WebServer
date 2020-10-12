@@ -120,6 +120,18 @@ summary > h2 {
 .details-link { float: right; }
 .details-link::after { content: " »"; }
 
+.box {
+    break-inside: avoid; /* in multi-column contexts */
+    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.25);
+}
+
+.box .title {margin-bottom: 1em;}
+.box .title h2, .box .title h3 {display: inline;}
+
 
 /* Status display (e.g. for DAQ overview page) */
 .statusboard {
@@ -171,21 +183,4 @@ summary > h2 {
     column-count: 3;
     column-rule: 1px solid rebeccapurple;
     max-height: 600px;
-}
-
-.item {
-    break-inside: avoid;
-    box-sizing: border-box;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background-color: rgba(0,0,0,0.25);
-}
-
-.item .title {
-    margin-bottom: 1em;
-}
-
-.item .title h3 {
-    display: inline;
 }
