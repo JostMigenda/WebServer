@@ -11,6 +11,10 @@ function setup() {
     console.log("rateSelector:" + rateSelector)
     rateSelector.addEventListener('change', setReloadInterval);
 
+    // display current time in footer
+    displayCurrentTime()
+    setInterval(displayCurrentTime, 1000)
+
     reloadAll()
     setReloadInterval()
 }
@@ -69,7 +73,6 @@ function loadContent(filename) {
 // make necessary functions available globally under the `$hk` prefix
 $hk.setup = setup
 $hk.setReloadInterval = setReloadInterval
-// $hk.reloadAll = reloadAll // TODO: Does this need to be public?
 $hk.audiotest = audiotest
 $hk.loadContent = loadContent
 
@@ -85,4 +88,15 @@ function makeXHR(filename, responseType, completionHandler) {
     request.send()
     request.onload = completionHandler
 }
+
+function displayCurrentTime() {
+    let d = new Date(Date.now())
+    let format = { day: "numeric", month: "short", year: "numeric", hourCycle: "h23", hour: "2-digit", minute: "2-digit", second: "2-digit" }
+    let formatJP = Object.create(format)
+    formatJP.timeZone = "Asia/Tokyo"
+
+    document.querySelector("#current-time-local").textContent = d.toLocaleString('en-GB', format)
+    document.querySelector("#current-time-japan").textContent = d.toLocaleString('en-GB', formatJP)
+}
+
 })()
