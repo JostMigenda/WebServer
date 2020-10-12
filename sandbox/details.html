@@ -17,7 +17,7 @@ $hk.itemsToReload.push({
 $hk.itemsToReload.push({
     filename: "json/" + deviceType + "-" + deviceID + "-temperature.json",
     responseType: 'json',
-    completionHandler: function () { updatePlot("history-cpu", this.response) }
+    completionHandler: function () { updatePlot("history-temperature", this.response) }
 })
 
 
@@ -45,9 +45,9 @@ const config = {
 
 function updatePlot(id, data) {
     const plot_layout = Object.create(layout)
-    plot_layout.title = "CPU Usage" // data.timeSeries.name
+    plot_layout.title = data.timeSeries.name
     plot_layout.xaxis = { title: "Time" }
-    plot_layout.yaxis = { title: "CPU Usage [%]", range: [data.meta.additionalInfo.min, data.meta.additionalInfo.max] }
+    plot_layout.yaxis = { title: data.timeSeries.name, range: [data.meta.additionalInfo.min, data.meta.additionalInfo.max] }
 
     Plotly.newPlot(id, [data.timeSeries], plot_layout, config);
 }
@@ -57,6 +57,15 @@ function updatePlot(id, data) {
     <h2>Current status (Last updated: <time datetime="2011-11-18T14:54:39.929+08:00">2011-11-18 14:54:39+08:00</time>)</h2>
     <!-- TODO: fill in all properties (and their current value) of the device with JS.
         Use `determineStatusIndicatorColour(device, ranges)` for formatting. -->
+    <label for="time-range-selector">Show time range:</label>
+    <select name="time-range-selector" id="time-range-selector">
+        <!-- Values in milliseconds. -->
+        <option value="1" selected>Last hour</option>
+        <option value="8">Last 8 hours</option>
+        <option value="24">Last day</option>
+        <option value="168">Last week</option>
+    </select>
+
 </div>
 
 <div class="plot-div" id="history-cpu"></div>
