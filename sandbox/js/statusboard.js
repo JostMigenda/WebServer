@@ -1,7 +1,4 @@
 (function() {
-// global variables
-window.$hk.statusboard = {}
-
 /**
  * Delete contents of a statusboard and insert new data.
  * @param {string} id - The ID of the <div class="statusboard"> that contains the statusboard to update
@@ -28,7 +25,9 @@ function updateStatusboard(id, data) {
 
 
 // make necessary functions available globally under the `$hk.statusboard` prefix
+window.$hk.statusboard = {}
 $hk.statusboard.update = updateStatusboard
+
 
 // internal helper functions
 function determineStatusIndicatorColour(device, ranges) {

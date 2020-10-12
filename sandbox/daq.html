@@ -1,4 +1,5 @@
 <h1>DAQ Overview</h1>
+
 <script>
 $hk.itemsToReload.push({
     filename: "json/statusdisplay.json",
@@ -12,5 +13,6 @@ $hk.itemsToReload.push({
     completionHandler: function () { $hk.statusboard.update("status-display-2", this.response) }
 })
 </script>
+
 <div id="status-display-1" class="statusboard plot-div"></div>
 <div id="status-display-2" class="statusboard plot-div"></div>
