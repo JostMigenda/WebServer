@@ -182,5 +182,12 @@ summary > h2 {
 #wrapper {
     column-count: 3;
     column-rule: 1px solid rebeccapurple;
-    max-height: 600px;
+}
+
+@media screen and (max-width: 55em) {
+    #wrapper { column-count: 2;}
+}
+
+@media screen and (max-width: 30em) {
+    #wrapper { column-count: 1;}
 }
