@@ -23,7 +23,8 @@ ul { list-style-type: disc; }
 /* Basic styles */
 :root {
     /* Can define CSS variables here, e.g. for common colours. */
-    --bgcolor: #4352af;
+    --blue: #4352af;
+    --lightgrey: #ccc;
 }
 
 .debug { border: 2px solid blue; }
@@ -48,7 +49,7 @@ header {
     display: flex;
     align-items: center;
     color: #fff;
-    background: var(--bgcolor);
+    background: var(--blue);
 }
 
 main {
@@ -60,7 +61,7 @@ footer {
     height: 4em;
     display: flex;
     color: #fff;
-    background: var(--bgcolor);
+    background: var(--blue);
 }
 
 
@@ -75,9 +76,10 @@ header > nav a {
 
 #alerts {
     position: relative;
-    font-size: 1.5em;
     margin-inline-start: 20px;
 }
+
+#alerts-icon {font-size: 1.5em;}
 
 #alerts-badge {
     position: absolute;
@@ -88,10 +90,8 @@ header > nav a {
     border-radius: 0.6em;
     color: #fff;
     background: #f00;
-    font: bold 0.5em sans-serif;
+    font: bold 0.75em sans-serif;
 }
-
-#alerts menu { display: none; } /* TODO: hidden by default and should expand when clicked */
 
 
 /* Footer */
@@ -126,11 +126,38 @@ summary > h2 {
     padding: 8px;
     margin-bottom: 10px;
     border-radius: 8px;
-    background-color: rgba(0,0,0,0.25);
+    background-color: var(--lightgrey);
 }
 
 .box .title {margin-bottom: 1em;}
 .box .title h2, .box .title h3 {display: inline;}
+
+.dropdown-host {position: relative;}
+
+.dropdown {
+    position: absolute;
+    display: none;
+    background-color: var(--lightgrey);
+    color: black;
+}
+
+.dropdown-host:hover .dropdown {
+    display: block;
+    right: 0;
+    width: 12em;
+}
+
+.dropdown-entries div {
+    padding: 0.5em 0;
+    margin: 0 0.5em;
+    border-bottom: 1px solid var(--blue);
+}
+
+.dropdown-entries p.time {
+    font-size: 0.8em;
+}
+
+.dropdown-footer {padding: 0.5em;}
 
 
 /* Status display (e.g. for DAQ overview page) */
@@ -150,9 +177,9 @@ summary > h2 {
 
 .popover {
     width: 14em;
-    background: #ddd;
+    background: var(--lightgrey);
     padding: 10px;
-    border: 1px solid #bbb;
+    border: 1px solid #999; /* TODO: use shadow instead? */
     z-index: 1;
 }
 
@@ -169,7 +196,7 @@ summary > h2 {
 .popover .po-arrow::before {
     content: '';
     transform: rotate(45deg);
-    background: #ddd;
+    background: var(--lightgrey);
 }
 
 .popover[data-popper-placement^='top'] > .po-arrow {bottom: -4px;}
