@@ -7,6 +7,7 @@ Useful resources:
 
 /* Re-define basic styles that were cleared by the reset.css.
 This ensures that formatting is consistent across browsers. */
+body {font: 12pt "Helvetica Neue", "Helvetica", "Arial", sans-serif;}
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.17em; }
@@ -84,9 +85,12 @@ header > nav a {
 #alerts {position: relative;}
 
 #alerts-icon {
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 4rem;
+    height: 4rem;
     font-size: 1.5em;
-    padding: 1.25rem;
 }
 
 #alerts:hover #alerts-icon {background-color: rgba(0, 0, 0, 0.25);}
