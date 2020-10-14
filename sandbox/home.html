@@ -31,7 +31,7 @@
     <div class="box" style="min-height: 150px;">
         <div class="title">
             <a href="#" class="details-link">View details</a>
-            <h3>Subsystem 3</h3>
+            <h3>Some Other Subsystem</h3>
         </div>
         <div class="content">
             <p>[insert content here]</p>
@@ -39,27 +39,107 @@
         </div>
     </div>
 
-    <div class="box" style="min-height: 200px;">
+    <div class="box">
         <div class="title">
             <a href="#" onclick="$hk.loadContent('daq.html')" class="details-link">View details</a>
             <h3>DAQ &amp; Electronics</h3>
         </div>
         <div class="content">
-            <p>[insert table with status overview of different device types (FEE, RBU, TPU, EBU, …) here]</p>
+            <table class="status-table">
+                <caption class="speech-only">Overview over device status</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">
+                        <th scope="col" class="green">OK
+                        <th scope="col" class="yellow">Issues
+                        <th scope="col" class="red">Failed
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">FEE
+                        <td>1984
+                        <td>15
+                        <td>1
+                    </tr>
+                    <tr>
+                        <th scope="row">Switches
+                        <td>156
+                        <td>3
+                        <td>1
+                    </tr>
+                    <tr>
+                        <th scope="row">RBUs
+                        <td>80
+                        <td data-null>0
+                        <td data-null>0
+                    </tr>
+                    <tr>
+                        <th scope="row">TPUs
+                        <td>78
+                        <td>2
+                        <td data-null>0
+                    </tr>
+                    <tr>
+                        <th scope="row">EBUs
+                        <td>4
+                        <td data-null>0
+                        <td data-null>0
+                    </tr>
+                    <tr>
+                        <th scope="row">Brokers
+                        <td>2
+                        <td data-null>0
+                        <td data-null>0
+                    </tr>
+                    <tr>
+                        <th scope="row">SNTPUs
+                        <td>2
+                        <td data-null>0
+                        <td data-null>0
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="box" style="min-height: 300px;">
+    <div class="box">
         <div class="title">
             <a href="#" onclick="$hk.loadContent('pmt.html')" class="details-link">View details</a>
             <h3>Photosensors</h3>
         </div>
         <div class="content">
-            <ul>
-                <li>ID (50 cm): all good</li>
-                <li>ID (mPMTs): all good</li>
-                <li>OD: all good</li>
-            </ul>
+            <table class="status-table">
+                <caption class="speech-only">Overview over status of photosensors</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">
+                        <th scope="col" class="green">OK
+                        <th scope="col" class="yellow">Issues
+                        <th scope="col" class="red">Failed
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">ID (50 cm)
+                        <td>19923
+                        <td>65
+                        <td>12
+                    </tr>
+                    <tr>
+                        <th scope="row">ID (mPMT)
+                        <td>4961
+                        <td>37
+                        <td>2
+                    </tr>
+                    <tr>
+                        <th scope="row">OD
+                        <td>3891
+                        <td>109
+                        <td data-null>0
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

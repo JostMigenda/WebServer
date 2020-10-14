@@ -11,7 +11,7 @@ h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3 { font-size: 1.17em; }
 h1, h2, h3, h4 { font-weight: bold; }
-h1, h2, h3, h4, p {
+h1, h2, h3, h4, p, ol, ul, caption {
     margin-block-start: 0.25em;
     margin-block-end: 0.25em;
 }
@@ -24,7 +24,7 @@ ul { list-style-type: disc; }
 :root {
     /* Can define CSS variables here, e.g. for common colours. */
     --blue: #4352af;
-    --lightgrey: #ccc;
+    --lightgrey: #ddd;
     --shadow: 0 5px 8px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -37,7 +37,7 @@ ul { list-style-type: disc; }
 }
 
 .green {background-color: green;}
-.yellow {background-color: yellow;}
+.yellow {background-color: #bd983a;}
 .red {background-color: red;}
 .black {background-color: black;}
 
@@ -218,3 +218,14 @@ summary > h2 {
 #wrapper {
     column-width: 18em;
 }
+
+.status-table {width: 100%;}
+.status-table th, .status-table td {padding: 0.1em 0.5em;}
+.status-table tbody tr:nth-of-type(odd) {background-color: rgba(255, 255, 255, 0.3);}
+.status-table thead {color: white;}
+.status-table tbody {text-align: right;}
+.status-table tbody td {font-family: sans-serif;}
+.status-table tbody td:nth-of-type(1) {color: green;}
+.status-table tbody td:nth-of-type(2) {color: #970;}
+.status-table tbody td:nth-of-type(3) {color: red;}
+.status-table tbody td[data-null] {color: #333;}
