@@ -55,7 +55,7 @@ function createPopover(device, meta) {
         let p = document.createElement("p")
         p.textContent = quantity + ": "
         let span = document.createElement("span")
-        span.textContent = value || "[null]"
+        span.textContent = value + meta.units[quantity] || "[null]"
         span.classList.add(determineStatusIndicatorColour(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
         p.appendChild(span)
         po.appendChild(p)

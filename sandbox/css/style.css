@@ -148,6 +148,7 @@ summary > h2 {
     background-color: var(--lightgrey);
     color: black;
     box-shadow: var(--shadow);
+    z-index: 1;
 }
 .dropdown-host:hover .dropdown {display: block;}
 
@@ -167,7 +168,7 @@ summary > h2 {
 /* Status display (e.g. for DAQ overview page) */
 .statusboard {
     line-height: 0; /* avoid vertical margin between .statusindicator boxes */
-    max-width: 200px;
+    max-width: 800px;
 }
 .statusboard * { line-height: initial; } /* Don’t inherit this to children! */
 

@@ -1,8 +1,8 @@
 <h1>Device Details</h1>
 
 <script>
-const deviceType = "RBU" // (new URL(window.location.href)).searchParams.get("type")
-const deviceID = 7 // (new URL(window.location.href)).searchParams.get("id")
+var deviceType = "RBU" // (new URL(window.location.href)).searchParams.get("type")
+var deviceID = 7 // (new URL(window.location.href)).searchParams.get("id")
 
 var pageTitle = document.getElementById("page-title")
 pageTitle.textContent = deviceType + ' #' + deviceID + ' Details'
@@ -26,25 +26,26 @@ $hk.itemsToReload.push({
         <div style="float: right;">
             <label for="time-range-selector">Show time range:</label>
             <select name="time-range-selector" id="time-range-selector">
-                <!-- Values in milliseconds. -->
-                <option value="1" selected>Last hour</option>
+                <!-- Values in hours. TODO: Implement this! -->
+                <option value="0.5" selected>Last 30 minutes</option>
+                <option value="2">Last 2 hours</option>
                 <option value="8">Last 8 hours</option>
                 <option value="24">Last day</option>
                 <option value="168">Last week</option>
             </select>
         </div>
-        <h2>Current status (Last updated: <time datetime="2020-10-12T16:06:12+02:00">12 Oct 2020, 16:06:12</time>)</h2>
+        <h2>Current status (Last updated: <time datetime="2020-10-09T13:24:47+0800">9 Oct 2020, 13:24:47</time>)</h2>
     </div>
 
     <!-- TODO: This is just a static mockup currently. Fill in all properties (and their current value) of the device with JS.
         Use `determineStatusIndicatorColour(device, ranges)` for formatting. -->
     <div style="column-count: 3;">
         <p>IP: 192.168.53.231</p>
-        <p>Last update: 13:18:03 UTC</p>
+        <p>Last update: 13:24:47</p>
         <p>Uptime: 20 d, 8 h, 18 min</p>
-        <p>Temperature: 62 °C</p>
-        <p>CPU: 60%</p>
-        <p>RAM: 96% ⚠️</p>
+        <p>Temperature: 67°C ⚠️</p>
+        <p>CPU: 96% ⚠️</p>
+        <p>RAM: 71%</p>
         <p>NIC: 70%</p>
         <p>Free disk space: 4.8 TB (HDD) / 1.4 TB (SSD)</p>
     </div>
