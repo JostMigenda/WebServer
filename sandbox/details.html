@@ -19,6 +19,16 @@ $hk.itemsToReload.push({
     responseType: 'json',
     completionHandler: function () { $hk.plot.update("history-temperature", this.response) }
 })
+
+$hk.itemsToReload.push({
+    filename: "json/tempdata-barrel.json",
+    responseType: 'text',
+    completionHandler: function () {
+        const log = document.querySelector("#log-1")
+        log.querySelector("h4").textContent = this.responseURL.split('/').pop().split('?')[0]
+        log.querySelector("pre").textContent = this.response
+    }
+})
 </script>
 
 <div id="current-status" class="box">
@@ -53,3 +63,8 @@ $hk.itemsToReload.push({
 
 <div class="plot-div" id="history-cpu"></div>
 <div class="plot-div" id="history-temperature"></div>
+
+<div class="log" id="log-1">
+    <h4 class="title">Filename.txt</h4>
+    <pre>[Content from some log file goes here]</pre>
+</div>

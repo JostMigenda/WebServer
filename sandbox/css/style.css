@@ -18,6 +18,7 @@ h1, h2, h3, h4, p, ol, ul, caption {
 ol, ul { padding-left: 2em; }
 ol { list-style-type: decimal; }
 ul { list-style-type: disc; }
+pre {font-family: 'Courier New', Courier, monospace;}
 
 
 /* Basic styles */
@@ -229,3 +230,18 @@ summary > h2 {
 .status-table tbody td:nth-of-type(2) {color: #970;}
 .status-table tbody td:nth-of-type(3) {color: red;}
 .status-table tbody td[data-null] {color: #333;}
+
+
+/* Single device details page */
+.log {
+    border: 1px solid black;
+    padding: 0.5em;
+}
+
+.log h4 {
+    display: inline-block;
+    position: relative;
+    top: -1.4em;
+    padding: 0 0.5em;
+    background-color: white;
+}
