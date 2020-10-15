@@ -235,6 +235,14 @@ summary > h2 {
 .status-table tbody td:nth-of-type(3) {color: red;}
 .status-table tbody td[data-null] {color: #333;}
 
+li.status-good, li.status-warn, li.status-bad {
+    list-style-type: none;
+    margin-left: -2em;
+}
+li.status-good::before {content: "✅ ";}
+li.status-warn::before {content: "⚠️ ";}
+li.status-bad::before {content: "❌ ";}
+
 
 /* Single device details page */
 .log {
