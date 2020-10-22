@@ -73,6 +73,7 @@ function showDetailsPopover(event) {
     popover.classList.remove('hidden')
     popperInstance = Popper.createPopper(si, popover, {
         placement: 'bottom',
+        modifiers: [{ name: 'offset', options: { offset: [0, -1]}}]
     })
 }
 
