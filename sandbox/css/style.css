@@ -45,32 +45,22 @@ pre {font-family: 'Courier New', Courier, monospace;}
 
 
 /* Basic page layout */
-body { height: 100vh; }
-
-header, main, footer {
+header, footer {
+    display: flex;
+    position: fixed;
     box-sizing: border-box;
     padding: 8px;
-}
-
-header {
     height: 4em;
-    display: flex;
+    width: 100%;
     align-items: center;
     color: #fff;
     background: var(--blue);
+    z-index: 1;
 }
 
-main {
-    height: calc(100vh - 8em);
-    overflow: auto;
-}
-
-footer {
-    height: 4em;
-    display: flex;
-    color: #fff;
-    background: var(--blue);
-}
+header {top: 0px;}
+footer {bottom: 0px;}
+main {padding: calc(8px + 4em) 8px; /* don’t overlap header/footer */ }
 
 
 /* Header */
