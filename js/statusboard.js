@@ -13,7 +13,7 @@ function updateStatusboard(id, data) {
         si.setAttribute("class", "statusindicator")
         si.addEventListener('mouseenter', showDetailsPopover)
         si.addEventListener('mouseleave', hideDetailsPopover)
-        si.classList.add(determineStatusIndicatorColour(device, data.meta.acceptableRanges))
+        si.classList.add(determineStatus(device, data.meta.acceptableRanges))
 
         let po = createPopover(device, data.meta)
 
@@ -30,17 +30,17 @@ $hk.statusboard.update = updateStatusboard
 
 
 // internal helper functions
-function determineStatusIndicatorColour(device, ranges) {
-    let colour = "green" // default, if there are no issues
+function determineStatus(device, ranges) {
+    let status = "ok" // default, if there are no issues
     for (const [quantity, [min, max]] of Object.entries(ranges)) {
         if (device[quantity] == null) {
-            colour = "black"
+            status = "error"
             break
         } else if (device[quantity] <= min || device[quantity] >= max) {
-            colour = "red"
+            status = "warning"
         }
     }
-    return colour
+    return status
 }
 
 function createPopover(device, meta) {
@@ -56,7 +56,7 @@ function createPopover(device, meta) {
         p.textContent = quantity + ": "
         let span = document.createElement("span")
         span.textContent = value + meta.units[quantity] || "[null]"
-        span.classList.add(determineStatusIndicatorColour(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
+        span.classList.add(determineStatus(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
         p.appendChild(span)
         po.appendChild(p)
     }

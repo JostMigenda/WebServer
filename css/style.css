@@ -26,7 +26,10 @@ pre {font-family: 'Courier New', Courier, monospace;}
 :root {
     /* Can define CSS variables here, e.g. for common colours. */
     --blue: #4352af;
+    --green: #70bf41;
     --lightgrey: #ddd;
+    --yellow: #f5d428;
+    --darkyellow: #997700;
     --shadow: 0 5px 8px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -39,7 +42,7 @@ pre {font-family: 'Courier New', Courier, monospace;}
 }
 
 .green {background-color: green;}
-.yellow {background-color: #bd983a;}
+.yellow {background-color: var(--darkyellow);}
 .red {background-color: red;}
 .black {background-color: black;}
 
@@ -175,8 +178,11 @@ summary > h2 {
     box-sizing: border-box;
     width: 25px;
     height: 25px;
-    border: 0.5px solid #fff;
+    border: 0.5px solid black;
 }
+.statusindicator.ok {background-color: var(--green);}
+.statusindicator.warning {background-color: var(--yellow);}
+.statusindicator.error {background-color: black;}
 
 .popover {
     width: 14em;
@@ -187,8 +193,10 @@ summary > h2 {
     z-index: 1;
 }
 
-.popover span {color: white;}
-.popover span.red::after, .popover span.black::after {content: '⚠️';}
+.popover span.ok {color: green;}
+.popover span.warning {color: var(--darkyellow);}
+.popover span.error {color: red;}
+.popover span.warning::after, .popover span.error::after {content: '⚠️';}
 
 .popover .po-arrow, .popover .po-arrow::before {
     position: absolute;
@@ -221,7 +229,7 @@ summary > h2 {
 .status-table tbody {text-align: right;}
 .status-table tbody td {font-family: sans-serif;}
 .status-table tbody td:nth-of-type(1) {color: green;}
-.status-table tbody td:nth-of-type(2) {color: #970;}
+.status-table tbody td:nth-of-type(2) {color: var(--darkyellow);}
 .status-table tbody td:nth-of-type(3) {color: red;}
 .status-table tbody td[data-null] {color: #333;}
 
