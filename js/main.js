@@ -37,7 +37,7 @@ function reloadAll() {
 }
 
 function audiotest() {
-    var audio = new Audio("SN-test-sound.mp3");
+    var audio = new Audio("test.aiff");
     audio.play();
 }
 
