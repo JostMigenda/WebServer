@@ -139,6 +139,11 @@ summary > h2 {
 .box .title {margin-bottom: 1em;}
 .box .title h2, .box .title h3 {display: inline;}
 
+span.ok {color: green;}
+span.warning {color: var(--darkyellow);}
+span.error {color: red;}
+span.warning::after, .popover span.error::after {content: '⚠️';}
+
 .dropdown-host {position: relative;}
 
 .dropdown-host .dropdown {
@@ -193,11 +198,6 @@ summary > h2 {
     box-shadow: var(--shadow);
     z-index: 1;
 }
-
-.popover span.ok {color: green;}
-.popover span.warning {color: var(--darkyellow);}
-.popover span.error {color: red;}
-.popover span.warning::after, .popover span.error::after {content: '⚠️';}
 
 .popover .po-arrow, .popover .po-arrow::before {
     position: absolute;

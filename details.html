@@ -44,20 +44,20 @@ $hk.itemsToReload.push({
                 <option value="168">Last week</option>
             </select>
         </div>
-        <h2>Current status (Last updated: <time datetime="2020-10-09T13:24:47+0800">9 Oct 2020, 13:24:47</time>)</h2>
+        <h2>Current status (Last updated: <time datetime="2020-10-30T02:35:47+0800">30 Oct 2020, 02:35:47</time>)</h2>
     </div>
 
     <!-- TODO: This is just a static mockup currently. Fill in all properties (and their current value) of the device with JS.
         Use `determineStatusIndicatorColour(device, ranges)` for formatting. -->
     <div style="column-count: 3;">
-        <p>IP: 192.168.53.231</p>
-        <p>Last update: 13:24:47</p>
+        <p>IP: <span class="ok">192.168.53.231</span></p>
+        <p>Last update: <span class="ok">02:35:47</span></p>
         <p>Uptime: 20 d, 8 h, 18 min</p>
-        <p>Temperature: 67°C ⚠️</p>
-        <p>CPU: 96% ⚠️</p>
-        <p>RAM: 71%</p>
-        <p>NIC: 70%</p>
-        <p>Free disk space: 4.8 TB (HDD) / 1.4 TB (SSD)</p>
+        <p>Temperature: <span class="warning">67°C</span></p>
+        <p>CPU: <span class="warning">96%</span></p>
+        <p>RAM: <span class="ok">71%</span></p>
+        <p>NIC: <span class="ok">70%</span></p>
+        <p>Free disk space: <span class="ok">4.8 TB</span> (HDD) / <span class="ok">1.4 TB</span> (SSD)</p>
     </div>
 </div>
 
