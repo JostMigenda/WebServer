@@ -29,6 +29,16 @@ $hk.itemsToReload.push({
         log.querySelector("pre").textContent = this.response
     }
 })
+
+$hk.itemsToReload.push({
+    filename: "cgi-bin/pg-query.py?q=overview",
+    responseType: 'text',
+    completionHandler: function () {
+        const log = document.querySelector("#log-2")
+        log.querySelector("h4").textContent = this.responseURL.split('/').pop() //.split('?')[0]
+        log.querySelector("pre").textContent = this.response
+    }
+})
 </script>
 
 <div id="current-status" class="box">
