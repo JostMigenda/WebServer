@@ -127,11 +127,13 @@ summary > h2 {
 .details-link { float: right; }
 .details-link::after { content: " »"; }
 
-.box {
+.box-wrapper {
     break-inside: avoid; /* in multi-column contexts */
-    box-sizing: border-box;
+    padding-bottom: 10px;
+}
+
+.box {
     padding: 8px;
-    margin-bottom: 10px;
     border-radius: 8px;
     background-color: var(--lightgrey);
 }
@@ -247,6 +249,7 @@ li.status-bad::before {content: "❌ ";}
 .log {
     border: 1px solid black;
     padding: 0.5em;
+    margin-bottom: 1em;
 }
 
 .log h4 {
