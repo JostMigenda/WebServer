@@ -36,7 +36,7 @@ function determineStatus(device, ranges) {
         if (device[quantity] == null) {
             status = "error"
             break
-        } else if (device[quantity] <= min || device[quantity] >= max) {
+        } else if (device[quantity] < min || device[quantity] > max) {
             status = "warning"
         }
     }
