@@ -12,6 +12,12 @@ $hk.itemsToReload.push({
     responseType: 'json',
     completionHandler: function () { $hk.statusboard.update("status-display-2", this.response) }
 })
+
+$hk.itemsToReload.push({
+    filename: "cgi-bin/pg-query.py?q=overview", // custom
+    responseType: 'json',
+    completionHandler: function () { $hk.statusboard.update("status-display-teststand", this.response) }
+})
 </script>
 
 <div class="box">
@@ -29,4 +35,7 @@ $hk.itemsToReload.push({
 
 <h3>TPUs, EBUs, etc.</h3>
 [missing in this mockup]
+
+<h3>DAQ Test Stand</h3>
+<div id="status-display-teststand" class="statusboard plot-div"></div>
 

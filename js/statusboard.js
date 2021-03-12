@@ -51,12 +51,15 @@ function createPopover(device, meta) {
     // add data
     for (const [quantity, value] of Object.entries(device)) {
         if (quantity === "id") { continue } // id is already listed in the header
+        if (quantity.startsWith("rx") || quantity.startsWith("tx")) { continue } // don't display too much detail or popover will get unwieldy
 
         let p = document.createElement("p")
         p.textContent = quantity + ": "
         let span = document.createElement("span")
-        span.textContent = value + meta.units[quantity] || "[null]"
-        span.classList.add(determineStatus(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
+        span.textContent = value + (meta.units[quantity] || "")
+        if (meta.acceptableRanges.hasOwnProperty(quantity)) {
+            span.classList.add(determineStatus(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
+        }
         p.appendChild(span)
         po.appendChild(p)
     }

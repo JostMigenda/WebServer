@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta
 import cgi
+import json
 from psycopg2 import connect
 from psycopg2.extras import NamedTupleCursor
 
@@ -17,6 +18,7 @@ devices = {"Monitor": "192.168.1.105",
 
 def parse_query_string():
     form = cgi.FieldStorage()
+    global query_type
     query_type = form.getfirst("q")
 
     if query_type == "id":
@@ -25,7 +27,7 @@ def parse_query_string():
         args = [row_id]
 
     elif query_type == "overview":
-        query = "SELECT DISTINCT ON (ip) ip, time FROM mon_data WHERE time > %s ORDER BY ip, time DESC;"
+        query = "SELECT DISTINCT ON (ip) ip, time, data FROM mon_data WHERE time > %s ORDER BY ip, time DESC;"
         args = [datetime.now() - timedelta(minutes=5, seconds=1)]
 
     elif query_type == "details":
@@ -66,8 +68,22 @@ def execute_query(query, args):
 
 def generate_output(results):
     print("Content-Type: text/plain\n\n")
-    for r in results:
-        print(r)
+
+    if query_type == "overview":
+        all_devices = []
+        for r in results:
+            r.data['id'] = r.ip
+            all_devices.append(r.data)
+
+        meta = {"deviceType": "???",
+                "acceptableRanges": {"Temp": [20,40], "CPUidle ": [20,100]},
+                "units": {"Temp":"℃", "CPUidle ": "%"}
+               }
+        print(json.dumps({"devices": all_devices, "meta": meta}))
+
+    else:
+        for r in results:
+            print(r)
 
 def ERROR(msg):
     generate_output(["ERROR: " + msg])
