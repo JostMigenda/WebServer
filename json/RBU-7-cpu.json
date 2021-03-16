@@ -1,6 +1,5 @@
 {
     "timeSeries": {
-        "name": "CPU Usage [%]",
         "x": [
             "2020-10-09 12:54:00",
             "2020-10-09 12:57:00",
@@ -17,14 +16,11 @@
         "y": [60, 57, 62, 78, 98, 92, 93, 97, 96, 92, 96]
     },
     "meta": {
+        "title": "CPU Usage [%]",
         "deviceType": "RBU",
         "deviceID": 7,
         "lastUpdated": "2020-10-09 13:24:47",
-        "additionalInfo": {
-            "min": 0,
-            "low": 20,
-            "high": 80,
-            "max": 100
-        }
+        "min": 0,
+        "max": 100
     }
 }

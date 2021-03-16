@@ -6,9 +6,9 @@
  */
 function updatePlot(id, data) {
     const layout = Object.create(default_layout)
-    layout.title = data.timeSeries.name
+    layout.title = data.meta.title
     layout.xaxis = { title: "Time" }
-    layout.yaxis = { title: data.timeSeries.name, range: [data.meta.additionalInfo.min, data.meta.additionalInfo.max] }
+    layout.yaxis = { title: data.meta.title, range: [data.meta.min, data.meta.max] }
 
     Plotly.newPlot(id, [data.timeSeries], layout, default_config);
 }
