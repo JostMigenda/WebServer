@@ -52,7 +52,7 @@ def parse_query_string():
         else:
             ERROR("Value for argument 'time' not recognized. Try 'time=8h' or 'time=2d' or 'time=2021-02-15to2021-02-18'.")
 
-        query = "SELECT * FROM mon_data WHERE ip=%s and time>%s and time<%s;"
+        query = "SELECT * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY time;"
         args = [devices[device], from_time, to_time]
 
     else:
@@ -80,6 +80,10 @@ def generate_output(results):
                 "units": {"Temp":"℃", "CPUidle ": "%"}
                }
         print(json.dumps({"devices": all_devices, "meta": meta}))
+
+    elif query_type == "details":
+        data = {str(r.time): r.data for r in results}
+        print(json.dumps(data))
 
     else:
         for r in results:

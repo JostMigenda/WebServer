@@ -5,20 +5,20 @@ var deviceType = "RBU" // (new URL(window.location.href)).searchParams.get("type
 var deviceID = 7 // (new URL(window.location.href)).searchParams.get("id")
 
 var pageTitle = document.getElementById("page-title")
-pageTitle.textContent = deviceType + ' #' + deviceID + ' Details'
+pageTitle.textContent = "Monitor Details" // deviceType + ' #' + deviceID + ' Details'
 
 
-$hk.itemsToReload.push({
-    filename: "json/" + deviceType + "-" + deviceID + "-cpu.json",
-    responseType: 'json',
-    completionHandler: function () { $hk.plot.update("history-cpu", this.response) }
-})
+//$hk.itemsToReload.push({
+//    filename: "json/" + deviceType + "-" + deviceID + "-cpu.json",
+//    responseType: 'json',
+//    completionHandler: function () { $hk.plot.update("history-cpu", this.response) }
+//})
 
-$hk.itemsToReload.push({
-    filename: "json/" + deviceType + "-" + deviceID + "-temperature.json",
-    responseType: 'json',
-    completionHandler: function () { $hk.plot.update("history-temperature", this.response) }
-})
+//$hk.itemsToReload.push({
+//    filename: "json/" + deviceType + "-" + deviceID + "-temperature.json",
+//    responseType: 'json',
+//    completionHandler: function () { $hk.plot.update("history-temperature", this.response) }
+//})
 
 $hk.itemsToReload.push({
     filename: "logs/Errorlog",
@@ -37,6 +37,31 @@ $hk.itemsToReload.push({
         const log = document.querySelector("#log-2")
         log.querySelector("h4").textContent = this.responseURL.split('/').pop() //.split('?')[0]
         log.querySelector("pre").textContent = this.response
+    }
+})
+
+$hk.itemsToReload.push({
+    filename: "cgi-bin/pg-query.py?q=details&device=Monitor&time=" + document.getElementById("time-range-selector").value,
+    responseType: 'json',
+    completionHandler: function () {
+        const cpuPlot = document.querySelector("#history-cpu")
+        const tempPlot = document.querySelector("#history-temp")
+
+        let cpuData = {"timeSeries": {"x":[], "y":[]},
+                       "meta": {"title": "CPU Usage [%]", "deviceType": "Monitor", "deviceID": 0, "min": -1, "max": 101}}
+        let tempData = {"timeSeries": {"x":[], "y":[]},
+                        "meta": {"title": "Temperature [℃]", "deviceType": "Monitor", "deviceID": 0, "min": 15, "max": 60}}
+
+        // iterate over this.response to collect CPU, temp info in separate data structures
+        for (const [t, raw_data] of Object.entries(this.response)) {
+            cpuData.timeSeries.x.push(t)
+            cpuData.timeSeries.y.push(100 - raw_data["CPUidle "])
+            tempData.timeSeries.x.push(t)
+            tempData.timeSeries.y.push(raw_data["Temp"])
+        }
+
+        $hk.plot.update("history-cpu", cpuData)
+        $hk.plot.update("history-temperature", tempData)
     }
 })
 </script>
