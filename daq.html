@@ -8,13 +8,14 @@ $hk.itemsToReload.push({
 })
 
 $hk.itemsToReload.push({
-    filename: "json/statusdisplay2.json", // custom
+    filename: "json/statusdisplay2.json",
     responseType: 'json',
     completionHandler: function () { $hk.statusboard.update("status-display-2", this.response) }
 })
 
 $hk.itemsToReload.push({
-    filename: "cgi-bin/pg-query.py?q=overview", // custom
+    filename: "cgi-bin/pg-query.py?q=overview",
+    // filename: "json/pg-query_overview.json", // for offline testing
     responseType: 'json',
     completionHandler: function () { $hk.statusboard.update("status-display-teststand", this.response) }
 })

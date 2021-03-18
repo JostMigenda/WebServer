@@ -1,16 +1,26 @@
 (function() {
 /**
  * Update Plotly plot with new data.
- * @param {string} id - The ID of the <div class="statusboard"> that contains the statusboard to update
- * @param {object} data - JSON returned by XMLHttpRequest. Contains a `devices` and a `meta` object.
+ * @param {string} id - ID of the <div class="statusboard"> that contains the statusboard to update
+ * @param {string} field - Name of the field in the `time_series` object
+ * @param {object} meta - Metadata for the plot, e.g. { "title": "CPU Usage [%]", "min": -1, "max": 101 }
+ * @param {object} time_series - Keys are timestamps, values are e.g. {"Temp": 28.0, "CPUidle ": 99.73, …}
  */
-function updatePlot(id, data) {
-    const layout = Object.create(default_layout)
-    layout.title = data.meta.title
-    layout.xaxis = { title: "Time" }
-    layout.yaxis = { title: data.meta.title, range: [data.meta.min, data.meta.max] }
+function updatePlot(id, field, meta, time_series) {
+    let data = { "x": [], "y": [] }
+    // TODO: Do I need to ensure that data is sorted by time? That’s not guaranteed, according to
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
+    for (const [t, status_info] of Object.entries(time_series)) {
+        data.x.push(t)
+        data.y.push(transform(status_info[field], field))
+    }
 
-    Plotly.newPlot(id, [data.timeSeries], layout, default_config);
+    const layout = Object.create(default_layout)
+    layout.title = meta.title
+    layout.xaxis = { title: "Time" }
+    layout.yaxis = { title: meta.title, range: [meta.min, meta.max] }
+
+    Plotly.newPlot(id, [data], layout, default_config);
 }
 
 
@@ -39,6 +49,19 @@ const default_config = {
     //     width: 700,
     //     scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
     // }
+}
+
+function transform(val, field) {
+    switch (field) {
+        case "CPUidle ":
+            return 100 - val // CPU usage in %
+
+        case "MemFree":
+            return val // TODO: transform into human-readable unit
+
+        default:
+            return val
+    }
 }
 
 })()
