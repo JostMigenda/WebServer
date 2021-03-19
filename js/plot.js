@@ -12,7 +12,7 @@ function updatePlot(id, field, meta, time_series) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
     for (const [t, status_info] of Object.entries(time_series)) {
         data.x.push(t)
-        data.y.push(transform(status_info[field], field))
+        data.y.push($hk.transformQuantity(status_info[field], field))
     }
 
     const layout = Object.create(default_layout)
@@ -49,19 +49,6 @@ const default_config = {
     //     width: 700,
     //     scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
     // }
-}
-
-function transform(val, field) {
-    switch (field) {
-        case "CPUidle ":
-            return 100 - val // CPU usage in %
-
-        case "MemFree":
-            return val // TODO: transform into human-readable unit
-
-        default:
-            return val
-    }
 }
 
 })()

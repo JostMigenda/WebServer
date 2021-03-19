@@ -69,6 +69,25 @@ function loadContent(filename) {
     })
 }
 
+function displayQuantity(val, field) {
+    val = transformQuantity(val, field)
+    switch (field) {
+        case "CPUidle ": return val + "%"
+        case "MemFree": return val + "MB"
+	// etc.
+        default: return val
+    }
+}
+
+function transformQuantity(val, field) {
+    switch (field) {
+        case "CPUidle ": return 100 - val // CPU usage in %
+        case "MemFree": return val // TODO: transform into human-readable unit
+	// etc.
+        default: return val
+    }
+}
+
 
 // make necessary functions available globally under the `$hk` prefix
 $hk.setup = setup
@@ -76,6 +95,8 @@ $hk.setReloadInterval = setReloadInterval
 $hk.reloadAll = reloadAll
 $hk.audiotest = audiotest
 $hk.loadContent = loadContent
+$hk.displayQuantity = displayQuantity
+$hk.transformQuantity = transformQuantity
 
 
 // internal helper functions
