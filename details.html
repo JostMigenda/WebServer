@@ -36,6 +36,13 @@ $hk.itemsToReload.push({
         $hk.plot.update("history-temperature", "Temp", {"title": "Temperature [℃]", "min": 15, "max": 60}, this.response)
     }
 })
+
+trs = document.getElementById("time-range-selector")
+trs.addEventListener('change', function () {
+    // TODO: Can we rely on this always being the last entry?
+    $hk.itemsToReload[$hk.itemsToReload.length-1].filename = "cgi-bin/pg-query.py?q=details&device=Monitor&time=" + document.getElementById("time-range-selector").value
+    $hk.reloadAll()
+})
 </script>
 
 <div class="box-wrapper"><div id="current-status" class="box">
@@ -43,12 +50,11 @@ $hk.itemsToReload.push({
         <div style="float: right;">
             <label for="time-range-selector">Show time range:</label>
             <select name="time-range-selector" id="time-range-selector">
-                <!-- Values in hours. TODO: Implement this! -->
-                <option value="0.5" selected>Last 30 minutes</option>
-                <option value="2">Last 2 hours</option>
-                <option value="8">Last 8 hours</option>
-                <option value="24">Last day</option>
-                <option value="168">Last week</option>
+                <option value="0.5h" selected>Last 30 minutes</option>
+                <option value="2h">Last 2 hours</option>
+                <option value="8h">Last 8 hours</option>
+                <option value="1d">Last day</option>
+                <option value="7d">Last week</option>
             </select>
         </div>
         <h2>Current status (Last updated: <time datetime="2020-10-30T02:35:47+0800">30 Oct 2020, 02:35:47</time>)</h2>

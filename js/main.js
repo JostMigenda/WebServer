@@ -73,6 +73,7 @@ function loadContent(filename) {
 // make necessary functions available globally under the `$hk` prefix
 $hk.setup = setup
 $hk.setReloadInterval = setReloadInterval
+$hk.reloadAll = reloadAll
 $hk.audiotest = audiotest
 $hk.loadContent = loadContent
 
