@@ -33,17 +33,17 @@ def parse_query_string():
     elif query_type == "details":
         device = form.getfirst("device")
         if not device in devices.keys():
-            ERROR("Value for argument 'device' not recognized or missing. Try 'pg-query.py?q=details&device=Monitor")
+            ERROR("Value for argument 'device' not recognized or missing. Try 'pg-query.py?q=details&device=Monitor'!")
 
         time_str = form.getfirst("time", "now")
         if time_str == "now":
             from_time = datetime.now() - timedelta(minutes=30)
             to_time = datetime.now()
         elif time_str.endswith("d"):
-            from_time = datetime.now() - timedelta(days=int(time_str[:-1]))
+            from_time = datetime.now() - timedelta(days=float(time_str[:-1]))
             to_time = datetime.now()
         elif time_str.endswith("h"):
-            from_time = datetime.now() - timedelta(hours=int(time_str[:-1]))
+            from_time = datetime.now() - timedelta(hours=float(time_str[:-1]))
             to_time = datetime.now()
         elif "to" in time_str:
             from_time, to_time = time_str.split('to', 1)
@@ -90,7 +90,7 @@ def generate_output(results):
             print(r)
 
 def ERROR(msg):
-    generate_output(["ERROR: " + msg])
+    print(f"Content-Type: text/plain\n\nERROR: {msg}")
     exit()
 
 if __name__ == "__main__":
