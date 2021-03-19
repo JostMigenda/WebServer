@@ -75,8 +75,7 @@ def generate_output(results):
             r.data['id'] = r.ip
             all_devices.append(r.data)
 
-        meta = {"deviceType": "???",
-                "acceptableRanges": {"Temp": [20,40], "CPUidle ": [20,100]},
+        meta = {"acceptableRanges": {"Temp": [20,40], "CPUidle ": [20,100]},
                 "units": {"Temp":"℃", "CPUidle ": "%"}
                }
         print(json.dumps({"devices": all_devices, "meta": meta}))

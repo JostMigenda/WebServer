@@ -1,11 +1,10 @@
 <h1>Device Details</h1>
 
 <script>
-var deviceType = "RBU" // (new URL(window.location.href)).searchParams.get("type")
-var deviceID = 7 // (new URL(window.location.href)).searchParams.get("id")
+var device = "Monitor" // (new URL(window.location.href)).searchParams.get("device")
 
 var pageTitle = document.getElementById("page-title")
-pageTitle.textContent = "Monitor Details" // deviceType + ' #' + deviceID + ' Details'
+pageTitle.textContent = device + ': Details'
 
 
 $hk.itemsToReload.push({

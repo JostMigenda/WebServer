@@ -58,7 +58,6 @@
             "id": "192.168.1.99"
         }],
     "meta": {
-        "deviceType": "???",
         "acceptableRanges": {
             "Temp": [
                 20,
