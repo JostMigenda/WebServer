@@ -28,16 +28,6 @@ $hk.itemsToReload.push({
 })
 
 $hk.itemsToReload.push({
-    filename: "cgi-bin/pg-query.py?q=history&device=Monitor&time=" + document.getElementById("time-range-selector").value,
-    // filename: "json/pg-query_details.json", // for offline testing
-    responseType: 'json',
-    completionHandler: function () {
-        $hk.plot.update("history-cpu", "CPUidle ", {"title": "CPU Usage [%]", "min": -1, "max": 101}, this.response)
-        $hk.plot.update("history-temperature", "Temp", {"title": "Temperature [℃]", "min": 15, "max": 60}, this.response)
-    }
-})
-
-$hk.itemsToReload.push({
     filename: "cgi-bin/pg-query.py?q=current&device=Monitor",
     // filename: "json/pg-query_overview.json", // for offline testing
     responseType: 'json',
@@ -53,9 +43,19 @@ $hk.itemsToReload.push({
     }
 })
 
+$hk.itemsToReload.push({
+    filename: "cgi-bin/pg-query.py?q=history&device=Monitor&time=" + document.getElementById("time-range-selector").value,
+    // filename: "json/pg-query_details.json", // for offline testing
+    responseType: 'json',
+    completionHandler: function () {
+        $hk.plot.update("history-cpu", "CPUidle ", {"title": "CPU Usage [%]", "min": -1, "max": 101}, this.response)
+        $hk.plot.update("history-temperature", "Temp", {"title": "Temperature [℃]", "min": 15, "max": 60}, this.response)
+    }
+})
+
 trs = document.getElementById("time-range-selector")
 trs.addEventListener('change', function () {
-    // TODO: Can we rely on this always being the last entry?
+    // TODO: We can't rely on this always being the last entry!
     $hk.itemsToReload[$hk.itemsToReload.length-1].filename = "cgi-bin/pg-query.py?q=history&device=Monitor&time=" + document.getElementById("time-range-selector").value
     $hk.reloadAll()
 })
