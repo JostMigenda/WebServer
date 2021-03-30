@@ -37,6 +37,22 @@ $hk.itemsToReload.push({
     }
 })
 
+$hk.itemsToReload.push({
+    filename: "cgi-bin/pg-query.py?q=current&device=Monitor",
+    // filename: "json/pg-query_overview.json", // for offline testing
+    responseType: 'json',
+    completionHandler: function () {
+        let csl = document.getElementById("current-status-list")
+        csl.innerHTML = '' // clear old data
+        $hk.statusboard.listDeviceData(csl, this.response.devices[0], this.response.meta)
+
+        let lu = document.querySelector("#current-status .title time")
+        const d = new Date()
+        lu.textContent = d.toLocaleString()
+        lu.setAttribute("datetime", d.toISOString())
+    }
+})
+
 trs = document.getElementById("time-range-selector")
 trs.addEventListener('change', function () {
     // TODO: Can we rely on this always being the last entry?
@@ -57,20 +73,11 @@ trs.addEventListener('change', function () {
                 <option value="7d">Last week</option>
             </select>
         </div>
-        <h2>Current status (Last updated: <time datetime="2020-10-30T02:35:47+0800">30 Oct 2020, 02:35:47</time>)</h2>
+        <h2>Current status (Last updated: <time datetime=""></time>)</h2>
     </div>
 
-    <!-- TODO: This is just a static mockup currently. Fill in all properties (and their current value) of the device with JS.
-        Use `determineStatusIndicatorColour(device, ranges)` for formatting. -->
-    <div style="column-count: 3;">
-        <p>IP: <span class="ok">192.168.53.231</span></p>
-        <p>Last update: <span class="ok">02:35:47</span></p>
-        <p>Uptime: 20 d, 8 h, 18 min</p>
-        <p>Temperature: <span class="warning">67°C</span></p>
-        <p>CPU: <span class="warning">96%</span></p>
-        <p>RAM: <span class="ok">71%</span></p>
-        <p>NIC: <span class="ok">70%</span></p>
-        <p>Free disk space: <span class="ok">4.8 TB</span> (HDD) / <span class="ok">1.4 TB</span> (SSD)</p>
+    <div id="current-status-list" style="column-count: 3;">
+        <p>Loading data …</p>
     </div>
 </div></div>
 

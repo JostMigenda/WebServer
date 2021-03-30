@@ -15,9 +15,14 @@ function updateStatusboard(id, data) {
         si.addEventListener('mouseleave', hideDetailsPopover)
         si.classList.add(determineStatus(device, data.meta.acceptableRanges))
 
-        let po = createPopover(device, data.meta)
+        // create popover
+        let po = document.createElement("div")
+        po.setAttribute("class", "popover hidden")
+        po.innerHTML = '<div class="title"><a href="#" onclick="$hk.loadContent(\'details.html?device=' + device.id + '\')" class="details-link">View details</a><h4>' + device.id + '</h4></div>'
+        listDeviceData(po, device, data.meta)
+        po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>' // arrow pointing towards statusindicator
 
-        // display it
+        // display statusindicator and popover
         si.appendChild(po)
         statusboard.appendChild(si);
     })
@@ -27,6 +32,7 @@ function updateStatusboard(id, data) {
 // make necessary functions available globally under the `$hk.statusboard` prefix
 window.$hk.statusboard = {}
 $hk.statusboard.update = updateStatusboard
+$hk.statusboard.listDeviceData = listDeviceData
 
 
 // internal helper functions
@@ -43,12 +49,7 @@ function determineStatus(device, ranges) {
     return status
 }
 
-function createPopover(device, meta) {
-    let po = document.createElement("div")
-    po.setAttribute("class", "popover hidden")
-    po.innerHTML = '<div class="title"><a href="#" onclick="$hk.loadContent(\'details.html?device=' + device.id + '\')" class="details-link">View details</a><h4>' + device.id + '</h4></div>'
-
-    // add data
+function listDeviceData(element, device, meta) {
     for (const [quantity, value] of Object.entries(device)) {
         if (quantity === "id") { continue } // id is already listed in the header
         if (quantity.startsWith("rx") || quantity.startsWith("tx")) { continue } // don't display too much detail or popover will get unwieldy
@@ -56,16 +57,13 @@ function createPopover(device, meta) {
         let p = document.createElement("p")
         p.textContent = quantity + ": "
         let span = document.createElement("span")
-        span.textContent = value + (meta.units[quantity] || "")
+        span.textContent = value + (meta.units[quantity] || "") // TODO: $hk.formatQuantity(value, quantity)
         if (meta.acceptableRanges.hasOwnProperty(quantity)) {
             span.classList.add(determineStatus(device, Object.fromEntries([[quantity, meta.acceptableRanges[quantity]]])))
         }
         p.appendChild(span)
-        po.appendChild(p)
+        element.appendChild(p)
     }
-
-    po.innerHTML += '<div class="po-arrow" data-popper-arrow></div>' // arrow pointing towards statusindicator
-    return po
 }
 
 var popperInstance = null
