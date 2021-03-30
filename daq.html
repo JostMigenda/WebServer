@@ -14,7 +14,7 @@ $hk.itemsToReload.push({
 })
 
 $hk.itemsToReload.push({
-    filename: "cgi-bin/pg-query.py?q=overview",
+    filename: "cgi-bin/pg-query.py?q=current",
     // filename: "json/pg-query_overview.json", // for offline testing
     responseType: 'json',
     completionHandler: function () { $hk.statusboard.update("status-display-teststand", this.response) }

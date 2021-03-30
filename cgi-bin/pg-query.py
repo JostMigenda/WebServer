@@ -26,22 +26,24 @@ def parse_query_string():
         query = "SELECT * FROM mon_data where id=%s;"
         args = [row_id]
 
-    elif query_type == "overview":
-        query = "SELECT DISTINCT ON (ip) ip, time, data FROM mon_data WHERE time > %s ORDER BY ip, time DESC;"
-        args = [datetime.now() - timedelta(minutes=5, seconds=1)]
+    elif query_type == "current":
+        device = form.getfirst("device", "all")
+        if device == "all":
+            query = "SELECT DISTINCT ON (ip) ip, time, data FROM mon_data WHERE time > %s ORDER BY ip, time DESC;"
+            args = [datetime.now() - timedelta(minutes=5, seconds=1)]
+        elif device in devices.keys():
+            query = "SELECT DISTINCT ON (ip) ip, time, data FROM mon_data WHERE ip=%s and time>%s ORDER BY ip, time DESC;"
+            args = [devices[device], datetime.now() - timedelta(minutes=5, seconds=1)]
+        else:
+            ERROR("Value for argument 'device' not recognized. Try 'pg-query.py?q=current&device=Monitor'!")
 
-    elif query_type == "details":
+    elif query_type == "history":
         device = form.getfirst("device")
         if not device in devices.keys():
-            ERROR("Value for argument 'device' not recognized or missing. Try 'pg-query.py?q=details&device=Monitor'!")
+            ERROR("Value for argument 'device' not recognized or missing. Try 'pg-query.py?q=history&device=Monitor'!")
 
-        query = "SELECT * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY time;"
-        time_str = form.getfirst("time", "now")
-        if time_str == "now":
-            from_time = datetime.now() - timedelta(minutes=5, seconds=1)
-            to_time = datetime.now()
-            query = "SELECT DISTINCT ON (ip) * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY ip, time DESC;"
-        elif time_str.endswith("d"):
+        time_str = form.getfirst("time", "0.5h")
+        if time_str.endswith("d"):
             from_time = datetime.now() - timedelta(days=float(time_str[:-1]))
             to_time = datetime.now()
         elif time_str.endswith("h"):
@@ -54,6 +56,7 @@ def parse_query_string():
         else:
             ERROR("Value for argument 'time' not recognized. Try 'time=8h' or 'time=2d' or 'time=2021-02-15to2021-02-18'.")
 
+        query = "SELECT * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY time;"
         args = [devices[device], from_time, to_time]
 
     else:
@@ -70,7 +73,7 @@ def execute_query(query, args):
 def generate_output(results):
     print("Content-Type: text/plain\n\n")
 
-    if query_type == "overview":
+    if query_type == "current":
         all_devices = []
         for r in results:
             r.data['id'] = r.ip
@@ -81,7 +84,7 @@ def generate_output(results):
                }
         print(json.dumps({"devices": all_devices, "meta": meta}))
 
-    elif query_type == "details":
+    elif query_type == "history":
         data = {str(r.time): r.data for r in results}
         print(json.dumps(data))
 
@@ -123,11 +126,12 @@ cur.description
 
 # Example use cases:
 # for DAQ overview page:
-#   /pg-query.py?q=overview  # effectively device=all&time=now
+#   /pg-query.py?q=current  # current status of all devices
 # for details page:
-#   /pg-query.py?q=details&device=Monitor  # shows last 30 min by default
-#   /pg-query.py?q=details&device=Switch-3&time=8h
-#   /pg-query.py?q=details&device=RBU-17&time=2021-03-04to2021-03-06
+#   /pg-query.py?q=current&device=Monitor  # current status of a single device
+#   /pg-query.py?q=history&device=Monitor  # shows last 30 min by default
+#   /pg-query.py?q=history&device=Switch-3&time=8h
+#   /pg-query.py?q=history&device=RBU-17&time=2021-03-04to2021-03-06
 
 # Transfer all data and let front-end filter out unneeded columns? Or request specific columns in URL?
 

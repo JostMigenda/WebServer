@@ -18,7 +18,7 @@ $hk.itemsToReload.push({
 })
 
 $hk.itemsToReload.push({
-    filename: "cgi-bin/pg-query.py?q=overview",
+    filename: "cgi-bin/pg-query.py?q=current",
     responseType: 'text',
     completionHandler: function () {
         const log = document.querySelector("#log-2")
@@ -28,7 +28,7 @@ $hk.itemsToReload.push({
 })
 
 $hk.itemsToReload.push({
-    filename: "cgi-bin/pg-query.py?q=details&device=Monitor&time=" + document.getElementById("time-range-selector").value,
+    filename: "cgi-bin/pg-query.py?q=history&device=Monitor&time=" + document.getElementById("time-range-selector").value,
     // filename: "json/pg-query_details.json", // for offline testing
     responseType: 'json',
     completionHandler: function () {
@@ -40,7 +40,7 @@ $hk.itemsToReload.push({
 trs = document.getElementById("time-range-selector")
 trs.addEventListener('change', function () {
     // TODO: Can we rely on this always being the last entry?
-    $hk.itemsToReload[$hk.itemsToReload.length-1].filename = "cgi-bin/pg-query.py?q=details&device=Monitor&time=" + document.getElementById("time-range-selector").value
+    $hk.itemsToReload[$hk.itemsToReload.length-1].filename = "cgi-bin/pg-query.py?q=history&device=Monitor&time=" + document.getElementById("time-range-selector").value
     $hk.reloadAll()
 })
 </script>
