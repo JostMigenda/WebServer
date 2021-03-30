@@ -35,10 +35,12 @@ def parse_query_string():
         if not device in devices.keys():
             ERROR("Value for argument 'device' not recognized or missing. Try 'pg-query.py?q=details&device=Monitor'!")
 
+        query = "SELECT * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY time;"
         time_str = form.getfirst("time", "now")
         if time_str == "now":
-            from_time = datetime.now() - timedelta(minutes=30)
+            from_time = datetime.now() - timedelta(minutes=5, seconds=1)
             to_time = datetime.now()
+            query = "SELECT DISTINCT ON (ip) * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY ip, time DESC;"
         elif time_str.endswith("d"):
             from_time = datetime.now() - timedelta(days=float(time_str[:-1]))
             to_time = datetime.now()
@@ -52,7 +54,6 @@ def parse_query_string():
         else:
             ERROR("Value for argument 'time' not recognized. Try 'time=8h' or 'time=2d' or 'time=2021-02-15to2021-02-18'.")
 
-        query = "SELECT * FROM mon_data WHERE ip=%s and time>%s and time<%s ORDER BY time;"
         args = [devices[device], from_time, to_time]
 
     else:
